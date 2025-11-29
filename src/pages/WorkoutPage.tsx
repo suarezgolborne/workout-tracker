@@ -374,7 +374,7 @@ export function WorkoutPage() {
 
       {activeWorkout.length > 0 && (
         <Fab
-          color="primary"
+          color="secondary"
           variant="extended"
           onClick={handleSaveWorkout}
           sx={{ position: 'fixed', bottom: 80, right: 16 }}

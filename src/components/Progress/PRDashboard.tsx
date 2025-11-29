@@ -100,7 +100,7 @@ export function PRDashboard() {
                         </Typography>
                         <Chip size="small" label={exercise.muscleGroup} sx={{ mt: 0.5 }} />
                       </Box>
-                      <Typography variant="h5" color="primary" fontWeight="bold">
+                      <Typography variant="h5" color="secondary" fontWeight="bold">
                         {maxWeight}kg
                       </Typography>
                     </Stack>

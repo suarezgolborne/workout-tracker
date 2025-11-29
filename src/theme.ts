@@ -8,10 +8,12 @@ const palette = {
   mode: 'light' as const,
   primary: {
     main: '#D4FF00', // Electric Lime (High visibility, energetic)
+    dark: '#A8CC00', // Darker lime for better contrast
     contrastText: '#0A0F0D', // Dark text on lime button
   },
   secondary: {
     main: '#6C5CE7', // Funky Purple for accents/charts
+    dark: '#5A4AD1', // Darker purple
     contrastText: '#FFFFFF',
   },
   background: {
@@ -25,8 +27,9 @@ const palette = {
   action: {
     active: '#0A0F0D',
   },
-  success: { main: '#00E096', contrastText: '#000' },
+  success: { main: '#00C878', contrastText: '#FFF' }, // Darker green for better contrast
   error: { main: '#FF3B30' },
+  info: { main: '#6C5CE7', contrastText: '#FFF' }, // Use purple for info
 }
 
 // 2. THE TYPOGRAPHY: Expressive & Chunky
@@ -88,12 +91,35 @@ export const theme = createTheme({
           padding: '12px 24px',
           boxShadow: 'none',
           '&:hover': {
-            boxShadow: '0px 4px 12px rgba(212, 255, 0, 0.4)', // Glow effect
             transform: 'translateY(-2px)', // Micro-interaction
           },
         },
         containedPrimary: {
           border: '2px solid #0A0F0D', // Neo-brutalism touch
+          '&:hover': {
+            boxShadow: '0px 4px 12px rgba(212, 255, 0, 0.4)', // Glow effect
+          },
+        },
+        outlinedPrimary: {
+          borderColor: palette.text.primary,
+          color: palette.text.primary,
+          borderWidth: '2px',
+          '&:hover': {
+            borderWidth: '2px',
+            borderColor: palette.text.primary,
+            backgroundColor: alpha(palette.text.primary, 0.05),
+          },
+        },
+        textPrimary: {
+          color: palette.text.primary,
+          '&:hover': {
+            backgroundColor: alpha(palette.text.primary, 0.05),
+          },
+        },
+        containedSecondary: {
+          '&:hover': {
+            boxShadow: '0px 4px 12px rgba(108, 92, 231, 0.4)',
+          },
         },
       },
     },
@@ -190,11 +216,13 @@ export const theme = createTheme({
     MuiFab: {
       styleOverrides: {
         root: {
+          boxShadow: '0px 8px 20px rgba(108, 92, 231, 0.4)',
+        },
+        secondary: {
           backgroundColor: palette.secondary.main,
           color: '#FFF',
-          boxShadow: '0px 8px 20px rgba(108, 92, 231, 0.4)',
           '&:hover': {
-            backgroundColor: '#5A4AD1',
+            backgroundColor: palette.secondary.dark,
           },
         },
       },
@@ -217,6 +245,19 @@ export const theme = createTheme({
         root: {
           borderRadius: 12,
           fontWeight: 600,
+        },
+        colorPrimary: {
+          backgroundColor: alpha(palette.secondary.main, 0.12),
+          color: palette.secondary.main,
+          '&.MuiChip-filled': {
+            backgroundColor: palette.secondary.main,
+            color: '#FFFFFF',
+          },
+        },
+        outlinedPrimary: {
+          borderColor: palette.secondary.main,
+          color: palette.secondary.main,
+          borderWidth: '2px',
         },
       },
     },

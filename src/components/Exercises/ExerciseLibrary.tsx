@@ -110,7 +110,7 @@ export function ExerciseLibrary({ onSelect, selectionMode = false }: Props) {
                       {exercise.muscleGroup}
                     </Typography>
                     {pr && (
-                      <Typography variant="caption" color="primary" fontWeight="bold">
+                      <Typography variant="caption" color="secondary" fontWeight="bold">
                         {pr}
                       </Typography>
                     )}

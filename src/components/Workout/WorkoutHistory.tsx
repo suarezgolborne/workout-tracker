@@ -99,7 +99,7 @@ export function WorkoutHistory({ onRepeat, onSaveAsTemplate }: Props) {
                 <Typography variant="body2" color="text.secondary">
                   {getWorkoutSummary(workout)}
                 </Typography>
-                <Typography variant="caption" color="primary">
+                <Typography variant="caption" color="secondary" fontWeight="bold">
                   Total volume: {getTotalVolume(workout).toLocaleString()}kg
                 </Typography>
               </>
