@@ -3,33 +3,36 @@ import { createTheme, alpha } from '@mui/material/styles'
 // M3 Expressive "Kinetic Lime" Theme
 // High-energy modern theme for a fitness app
 
-// 1. THE PALETTE: High Energy & Modern
+// 1. THE PALETTE: High Energy & SUPER VIBRANT
 const palette = {
   mode: 'light' as const,
   primary: {
-    main: '#D4FF00', // Electric Lime (High visibility, energetic)
+    main: '#DAFF00', // NEON Lime - even brighter!
+    light: '#F0FF80', // Light lime for backgrounds
     dark: '#A8CC00', // Darker lime for better contrast
     contrastText: '#0A0F0D', // Dark text on lime button
   },
   secondary: {
-    main: '#6C5CE7', // Funky Purple for accents/charts
-    dark: '#5A4AD1', // Darker purple
+    main: '#7C4DFF', // More vibrant purple (Material Deep Purple A200)
+    light: '#B47CFF', // Light purple for backgrounds
+    dark: '#651FFF', // Deep vibrant purple
     contrastText: '#FFFFFF',
   },
   background: {
-    default: '#F8F9FA', // Very light grey, not stark white
+    default: '#FAFBFC', // Subtle cool tint
     paper: '#FFFFFF',
   },
   text: {
     primary: '#0A0F0D', // Soft black
-    secondary: '#58656D', // Slate grey
+    secondary: '#5A6C7D', // Slate with subtle blue tint
   },
   action: {
-    active: '#0A0F0D',
+    active: '#7C4DFF', // Use vibrant purple
   },
-  success: { main: '#00C878', contrastText: '#FFF' }, // Darker green for better contrast
-  error: { main: '#FF3B30' },
-  info: { main: '#6C5CE7', contrastText: '#FFF' }, // Use purple for info
+  success: { main: '#00E676', light: '#69F0AE', contrastText: '#000' }, // Neon green
+  error: { main: '#FF3D00', light: '#FF6E40' }, // More vibrant red-orange
+  warning: { main: '#FFD600', light: '#FFEA00', contrastText: '#000' }, // Vibrant yellow
+  info: { main: '#00E5FF', light: '#84FFFF', contrastText: '#000' }, // Vibrant cyan
 }
 
 // 2. THE TYPOGRAPHY: Expressive & Chunky
@@ -90,14 +93,17 @@ export const theme = createTheme({
           borderRadius: 999, // Pill shape
           padding: '12px 24px',
           boxShadow: 'none',
+          fontWeight: 700,
           '&:hover': {
             transform: 'translateY(-2px)', // Micro-interaction
           },
         },
         containedPrimary: {
-          border: '2px solid #0A0F0D', // Neo-brutalism touch
+          background: `linear-gradient(135deg, ${palette.primary.main} 0%, ${palette.primary.dark} 100%)`,
+          border: '3px solid #0A0F0D', // Thicker neo-brutalism border
           '&:hover': {
-            boxShadow: '0px 4px 12px rgba(212, 255, 0, 0.4)', // Glow effect
+            background: `linear-gradient(135deg, ${palette.primary.light} 0%, ${palette.primary.main} 100%)`,
+            boxShadow: '0px 8px 24px rgba(218, 255, 0, 0.5)', // Stronger glow
           },
         },
         outlinedPrimary: {
@@ -107,19 +113,25 @@ export const theme = createTheme({
           '&:hover': {
             borderWidth: '2px',
             borderColor: palette.text.primary,
-            backgroundColor: alpha(palette.text.primary, 0.05),
+            backgroundColor: alpha(palette.secondary.light, 0.12),
           },
         },
         textPrimary: {
           color: palette.text.primary,
           '&:hover': {
-            backgroundColor: alpha(palette.text.primary, 0.05),
+            backgroundColor: alpha(palette.secondary.light, 0.12),
           },
         },
         containedSecondary: {
+          background: `linear-gradient(135deg, ${palette.secondary.main} 0%, ${palette.secondary.dark} 100%)`,
           '&:hover': {
-            boxShadow: '0px 4px 12px rgba(108, 92, 231, 0.4)',
+            background: `linear-gradient(135deg, ${palette.secondary.light} 0%, ${palette.secondary.main} 100%)`,
+            boxShadow: '0px 8px 24px rgba(124, 77, 255, 0.5)',
           },
+        },
+        sizeLarge: {
+          padding: '16px 32px',
+          fontSize: '1.1rem',
         },
       },
     },
@@ -216,14 +228,20 @@ export const theme = createTheme({
     MuiFab: {
       styleOverrides: {
         root: {
-          boxShadow: '0px 8px 20px rgba(108, 92, 231, 0.4)',
+          fontWeight: 700,
         },
         secondary: {
-          backgroundColor: palette.secondary.main,
+          background: `linear-gradient(135deg, ${palette.secondary.main} 0%, ${palette.secondary.dark} 100%)`,
           color: '#FFF',
+          boxShadow: '0px 12px 28px rgba(124, 77, 255, 0.5)',
           '&:hover': {
-            backgroundColor: palette.secondary.dark,
+            background: `linear-gradient(135deg, ${palette.secondary.light} 0%, ${palette.secondary.main} 100%)`,
+            boxShadow: '0px 16px 36px rgba(124, 77, 255, 0.6)',
+            transform: 'scale(1.05)',
           },
+        },
+        extended: {
+          padding: '16px 28px',
         },
       },
     },
@@ -244,17 +262,28 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 12,
-          fontWeight: 600,
+          fontWeight: 700,
+          fontSize: '0.8125rem',
+        },
+        filled: {
+          background: `linear-gradient(135deg, ${palette.secondary.main} 0%, ${palette.secondary.dark} 100%)`,
+          color: '#FFF',
         },
         colorPrimary: {
-          backgroundColor: alpha(palette.secondary.main, 0.12),
-          color: palette.secondary.main,
-          '&.MuiChip-filled': {
-            backgroundColor: palette.secondary.main,
-            color: '#FFFFFF',
-          },
+          background: `linear-gradient(135deg, ${palette.secondary.main} 0%, ${palette.secondary.dark} 100%)`,
+          color: '#FFF',
+        },
+        colorSecondary: {
+          background: `linear-gradient(135deg, ${palette.secondary.main} 0%, ${palette.secondary.dark} 100%)`,
+          color: '#FFF',
         },
         outlinedPrimary: {
+          borderColor: palette.secondary.main,
+          color: palette.secondary.main,
+          borderWidth: '2px',
+          backgroundColor: alpha(palette.secondary.light, 0.08),
+        },
+        outlinedSecondary: {
           borderColor: palette.secondary.main,
           color: palette.secondary.main,
           borderWidth: '2px',

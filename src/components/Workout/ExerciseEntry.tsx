@@ -43,9 +43,15 @@ export function ExerciseEntry({ exercise, log, onChange, onDelete }: Props) {
           p: 2,
           display: 'flex',
           alignItems: 'center',
-          bgcolor: 'primary.main',
+          background: (theme) =>
+            `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
           color: 'primary.contrastText',
           cursor: 'pointer',
+          transition: 'all 0.2s',
+          '&:hover': {
+            background: (theme) =>
+              `linear-gradient(135deg, ${theme.palette.primary.light} 0%, ${theme.palette.primary.main} 100%)`,
+          },
         }}
         onClick={() => setExpanded(!expanded)}
       >

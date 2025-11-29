@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState } from "react";
 import {
   Box,
   Button,
@@ -17,164 +17,193 @@ import {
   ListItemText,
   ListItemSecondaryAction,
   Stack,
-} from '@mui/material'
-import { Add, Save, Close, PlayArrow, BookmarkAdd, Delete, Edit } from '@mui/icons-material'
-import { ExerciseLibrary } from '../components/Exercises/ExerciseLibrary'
-import { ExerciseEntry } from '../components/Workout/ExerciseEntry'
-import { useWorkouts } from '../hooks/useWorkouts'
-import { useExercises } from '../hooks/useExercises'
-import { usePersonalRecords } from '../hooks/usePersonalRecords'
-import { useWorkoutTemplates } from '../hooks/useWorkoutTemplates'
-import { ExerciseLog, Exercise, Workout, WorkoutTemplate } from '../types'
+} from "@mui/material";
+import {
+  Add,
+  Save,
+  Close,
+  PlayArrow,
+  BookmarkAdd,
+  Delete,
+  Edit,
+} from "@mui/icons-material";
+import { ExerciseLibrary } from "../components/Exercises/ExerciseLibrary";
+import { ExerciseEntry } from "../components/Workout/ExerciseEntry";
+import { useWorkouts } from "../hooks/useWorkouts";
+import { useExercises } from "../hooks/useExercises";
+import { usePersonalRecords } from "../hooks/usePersonalRecords";
+import { useWorkoutTemplates } from "../hooks/useWorkoutTemplates";
+import { ExerciseLog, Exercise, Workout, WorkoutTemplate } from "../types";
 
 const getDefaultTimes = () => {
-  const now = new Date()
+  const now = new Date();
   // Convert to CET (Europe/Stockholm)
-  const cetTime = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Stockholm' }))
-  const lastFullHour = new Date(cetTime)
-  lastFullHour.setMinutes(0, 0, 0)
+  const cetTime = new Date(
+    now.toLocaleString("en-US", { timeZone: "Europe/Stockholm" })
+  );
+  const lastFullHour = new Date(cetTime);
+  lastFullHour.setMinutes(0, 0, 0);
 
-  const startHour = lastFullHour.getHours().toString().padStart(2, '0')
-  const endHour = ((lastFullHour.getHours() + 1) % 24).toString().padStart(2, '0')
+  const startHour = lastFullHour.getHours().toString().padStart(2, "0");
+  const endHour = ((lastFullHour.getHours() + 1) % 24)
+    .toString()
+    .padStart(2, "0");
 
   return {
-    date: now.toISOString().split('T')[0],
+    date: now.toISOString().split("T")[0],
     start: `${startHour}:00`,
     end: `${endHour}:00`,
-  }
-}
+  };
+};
 
 export function WorkoutPage() {
-  const [activeWorkout, setActiveWorkout] = useState<ExerciseLog[]>([])
-  const [exerciseDialogOpen, setExerciseDialogOpen] = useState(false)
-  const [templateDialogOpen, setTemplateDialogOpen] = useState(false)
-  const [saveTemplateDialogOpen, setSaveTemplateDialogOpen] = useState(false)
-  const [editTemplateDialogOpen, setEditTemplateDialogOpen] = useState(false)
-  const [editingTemplate, setEditingTemplate] = useState<WorkoutTemplate | null>(null)
-  const [templateName, setTemplateName] = useState('')
-  const [notes, setNotes] = useState('')
-  const [workoutStarted, setWorkoutStarted] = useState(false)
-  const [workoutDate, setWorkoutDate] = useState(() => getDefaultTimes().date)
-  const [startTime, setStartTime] = useState(() => getDefaultTimes().start)
-  const [endTime, setEndTime] = useState(() => getDefaultTimes().end)
+  const [activeWorkout, setActiveWorkout] = useState<ExerciseLog[]>([]);
+  const [exerciseDialogOpen, setExerciseDialogOpen] = useState(false);
+  const [templateDialogOpen, setTemplateDialogOpen] = useState(false);
+  const [saveTemplateDialogOpen, setSaveTemplateDialogOpen] = useState(false);
+  const [editTemplateDialogOpen, setEditTemplateDialogOpen] = useState(false);
+  const [editingTemplate, setEditingTemplate] =
+    useState<WorkoutTemplate | null>(null);
+  const [templateName, setTemplateName] = useState("");
+  const [notes, setNotes] = useState("");
+  const [workoutStarted, setWorkoutStarted] = useState(false);
+  const [workoutDate, setWorkoutDate] = useState(() => getDefaultTimes().date);
+  const [startTime, setStartTime] = useState(() => getDefaultTimes().start);
+  const [endTime, setEndTime] = useState(() => getDefaultTimes().end);
 
-  const { addWorkout } = useWorkouts()
-  const { getExercise } = useExercises()
-  const { updateRecordsFromWorkout } = usePersonalRecords()
-  const { templates, createTemplateFromWorkout, templateToExerciseLogs, deleteTemplate, updateTemplate } = useWorkoutTemplates()
+  const { addWorkout } = useWorkouts();
+  const { getExercise } = useExercises();
+  const { updateRecordsFromWorkout } = usePersonalRecords();
+  const {
+    templates,
+    createTemplateFromWorkout,
+    templateToExerciseLogs,
+    deleteTemplate,
+    updateTemplate,
+  } = useWorkoutTemplates();
 
   const getExerciseDescription = (exerciseLogs: ExerciseLog[]): string => {
     return exerciseLogs
-      .map(log => getExercise(log.exerciseId)?.name || 'Unknown')
-      .join(', ')
-  }
+      .map((log) => getExercise(log.exerciseId)?.name || "Unknown")
+      .join(", ");
+  };
 
   const handleAddExercise = (exercise: Exercise) => {
-    if (activeWorkout.some(e => e.exerciseId === exercise.id)) {
-      setExerciseDialogOpen(false)
-      return
+    if (activeWorkout.some((e) => e.exerciseId === exercise.id)) {
+      setExerciseDialogOpen(false);
+      return;
     }
-    setActiveWorkout(prev => [
+    setActiveWorkout((prev) => [
       ...prev,
       { exerciseId: exercise.id, sets: [{ reps: 10, weight: 0 }] },
-    ])
-    setExerciseDialogOpen(false)
-  }
+    ]);
+    setExerciseDialogOpen(false);
+  };
 
   const handleUpdateExercise = (index: number, log: ExerciseLog) => {
-    setActiveWorkout(prev => prev.map((e, i) => (i === index ? log : e)))
-  }
+    setActiveWorkout((prev) => prev.map((e, i) => (i === index ? log : e)));
+  };
 
   const handleDeleteExercise = (index: number) => {
-    setActiveWorkout(prev => prev.filter((_, i) => i !== index))
-  }
+    setActiveWorkout((prev) => prev.filter((_, i) => i !== index));
+  };
 
   const handleSaveWorkout = () => {
-    if (activeWorkout.length === 0) return
+    if (activeWorkout.length === 0) return;
 
-    const startDateTime = new Date(`${workoutDate}T${startTime}`).toISOString()
-    const endDateTime = new Date(`${workoutDate}T${endTime}`).toISOString()
+    const startDateTime = new Date(`${workoutDate}T${startTime}`).toISOString();
+    const endDateTime = new Date(`${workoutDate}T${endTime}`).toISOString();
 
-    const workout: Omit<Workout, 'id'> = {
+    const workout: Omit<Workout, "id"> = {
       date: new Date(workoutDate).toISOString(),
-      exercises: activeWorkout.filter(e => e.sets.length > 0),
+      exercises: activeWorkout.filter((e) => e.sets.length > 0),
       notes: notes || undefined,
       startTime: startDateTime,
       endTime: endDateTime,
-    }
+    };
 
-    const saved = addWorkout(workout)
-    updateRecordsFromWorkout(saved)
+    const saved = addWorkout(workout);
+    updateRecordsFromWorkout(saved);
 
-    setActiveWorkout([])
-    setNotes('')
-    setWorkoutStarted(false)
-    const defaults = getDefaultTimes()
-    setWorkoutDate(defaults.date)
-    setStartTime(defaults.start)
-    setEndTime(defaults.end)
-  }
+    setActiveWorkout([]);
+    setNotes("");
+    setWorkoutStarted(false);
+    const defaults = getDefaultTimes();
+    setWorkoutDate(defaults.date);
+    setStartTime(defaults.start);
+    setEndTime(defaults.end);
+  };
 
   const handleStartWorkout = (template?: WorkoutTemplate) => {
-    setWorkoutStarted(true)
+    setWorkoutStarted(true);
     if (template) {
-      setActiveWorkout(templateToExerciseLogs(template))
+      setActiveWorkout(templateToExerciseLogs(template));
     }
-    setTemplateDialogOpen(false)
-  }
+    setTemplateDialogOpen(false);
+  };
 
   const handleCancelWorkout = () => {
-    setActiveWorkout([])
-    setNotes('')
-    setWorkoutStarted(false)
-    const defaults = getDefaultTimes()
-    setWorkoutDate(defaults.date)
-    setStartTime(defaults.start)
-    setEndTime(defaults.end)
-  }
+    setActiveWorkout([]);
+    setNotes("");
+    setWorkoutStarted(false);
+    const defaults = getDefaultTimes();
+    setWorkoutDate(defaults.date);
+    setStartTime(defaults.start);
+    setEndTime(defaults.end);
+  };
 
   const handleSaveTemplate = () => {
-    if (!templateName.trim() || activeWorkout.length === 0) return
-    const description = getExerciseDescription(activeWorkout)
-    createTemplateFromWorkout(templateName.trim(), description, activeWorkout)
-    setTemplateName('')
-    setSaveTemplateDialogOpen(false)
-  }
+    if (!templateName.trim() || activeWorkout.length === 0) return;
+    const description = getExerciseDescription(activeWorkout);
+    createTemplateFromWorkout(templateName.trim(), description, activeWorkout);
+    setTemplateName("");
+    setSaveTemplateDialogOpen(false);
+  };
 
   const handleEditTemplate = (template: WorkoutTemplate) => {
-    setEditingTemplate(template)
-    setTemplateName(template.name)
-    setEditTemplateDialogOpen(true)
-  }
+    setEditingTemplate(template);
+    setTemplateName(template.name);
+    setEditTemplateDialogOpen(true);
+  };
 
   const handleSaveEditedTemplate = () => {
-    if (!editingTemplate || !templateName.trim()) return
+    if (!editingTemplate || !templateName.trim()) return;
     const description = editingTemplate.exercises
-      .map(te => getExercise(te.exerciseId)?.name || 'Unknown')
-      .join(', ')
-    updateTemplate(editingTemplate.id, { name: templateName.trim(), description })
-    setEditingTemplate(null)
-    setTemplateName('')
-    setEditTemplateDialogOpen(false)
-  }
+      .map((te) => getExercise(te.exerciseId)?.name || "Unknown")
+      .join(", ");
+    updateTemplate(editingTemplate.id, {
+      name: templateName.trim(),
+      description,
+    });
+    setEditingTemplate(null);
+    setTemplateName("");
+    setEditTemplateDialogOpen(false);
+  };
 
   if (!workoutStarted) {
     return (
-      <Box sx={{ textAlign: 'center', pt: 8 }}>
+      <Box sx={{ textAlign: "center", pt: 8 }}>
         <Typography variant="h5" gutterBottom>
           Ready to workout?
         </Typography>
         <Typography color="text.secondary" sx={{ mb: 4 }}>
           Start a new session to log your exercises
         </Typography>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, alignItems: 'center' }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+            alignItems: "center",
+          }}
+        >
           <Button
             variant="contained"
             size="large"
             onClick={() => handleStartWorkout()}
             startIcon={<PlayArrow />}
           >
-            Start Empty Workout
+            Start new workout
           </Button>
           {templates.length > 0 && (
             <Button
@@ -183,7 +212,7 @@ export function WorkoutPage() {
               onClick={() => setTemplateDialogOpen(true)}
               startIcon={<Add />}
             >
-              Use Template
+              Use workout template
             </Button>
           )}
         </Box>
@@ -197,22 +226,25 @@ export function WorkoutPage() {
           <DialogTitle>Select Template</DialogTitle>
           <DialogContent>
             <List>
-              {templates.map(template => (
+              {templates.map((template) => (
                 <ListItemButton
                   key={template.id}
                   onClick={() => handleStartWorkout(template)}
                 >
                   <ListItemText
                     primary={template.name}
-                    secondary={template.description || `${template.exercises.length} exercises`}
+                    secondary={
+                      template.description ||
+                      `${template.exercises.length} exercises`
+                    }
                   />
                   <ListItemSecondaryAction>
                     <Stack direction="row" spacing={0.5}>
                       <IconButton
                         edge="end"
                         onClick={(e) => {
-                          e.stopPropagation()
-                          handleEditTemplate(template)
+                          e.stopPropagation();
+                          handleEditTemplate(template);
                         }}
                       >
                         <Edit />
@@ -220,8 +252,8 @@ export function WorkoutPage() {
                       <IconButton
                         edge="end"
                         onClick={(e) => {
-                          e.stopPropagation()
-                          deleteTemplate(template.id)
+                          e.stopPropagation();
+                          deleteTemplate(template.id);
                         }}
                       >
                         <Delete />
@@ -247,24 +279,33 @@ export function WorkoutPage() {
               fullWidth
               label="Template Name"
               value={templateName}
-              onChange={e => setTemplateName(e.target.value)}
+              onChange={(e) => setTemplateName(e.target.value)}
               sx={{ mt: 1 }}
             />
             {editingTemplate && (
               <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
-                Exercises: {editingTemplate.exercises.map(te => getExercise(te.exerciseId)?.name || 'Unknown').join(', ')}
+                Exercises:{" "}
+                {editingTemplate.exercises
+                  .map((te) => getExercise(te.exerciseId)?.name || "Unknown")
+                  .join(", ")}
               </Typography>
             )}
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => setEditTemplateDialogOpen(false)}>Cancel</Button>
-            <Button onClick={handleSaveEditedTemplate} variant="contained" disabled={!templateName.trim()}>
+            <Button onClick={() => setEditTemplateDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button
+              onClick={handleSaveEditedTemplate}
+              variant="contained"
+              disabled={!templateName.trim()}
+            >
               Save
             </Button>
           </DialogActions>
         </Dialog>
       </Box>
-    )
+    );
   }
 
   return (
@@ -280,12 +321,12 @@ export function WorkoutPage() {
         </Toolbar>
       </AppBar>
 
-      <Box sx={{ p: 2, display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+      <Box sx={{ p: 2, display: "flex", gap: 2, flexWrap: "wrap" }}>
         <TextField
           type="date"
           label="Date"
           value={workoutDate}
-          onChange={e => setWorkoutDate(e.target.value)}
+          onChange={(e) => setWorkoutDate(e.target.value)}
           size="small"
           InputLabelProps={{ shrink: true }}
           sx={{ flex: 1, minWidth: 140 }}
@@ -294,7 +335,7 @@ export function WorkoutPage() {
           type="time"
           label="Start Time"
           value={startTime}
-          onChange={e => setStartTime(e.target.value)}
+          onChange={(e) => setStartTime(e.target.value)}
           size="small"
           InputLabelProps={{ shrink: true }}
           sx={{ flex: 1, minWidth: 110 }}
@@ -303,7 +344,7 @@ export function WorkoutPage() {
           type="time"
           label="End Time"
           value={endTime}
-          onChange={e => setEndTime(e.target.value)}
+          onChange={(e) => setEndTime(e.target.value)}
           size="small"
           InputLabelProps={{ shrink: true }}
           sx={{ flex: 1, minWidth: 110 }}
@@ -312,8 +353,10 @@ export function WorkoutPage() {
 
       <Box sx={{ p: 2 }}>
         {activeWorkout.length === 0 ? (
-          <Box sx={{ textAlign: 'center', py: 4 }}>
-            <Typography color="text.secondary">No exercises added yet</Typography>
+          <Box sx={{ textAlign: "center", py: 4 }}>
+            <Typography color="text.secondary">
+              No exercises added yet
+            </Typography>
             <Button
               variant="outlined"
               startIcon={<Add />}
@@ -326,17 +369,17 @@ export function WorkoutPage() {
         ) : (
           <>
             {activeWorkout.map((log, index) => {
-              const exercise = getExercise(log.exerciseId)
-              if (!exercise) return null
+              const exercise = getExercise(log.exerciseId);
+              if (!exercise) return null;
               return (
                 <ExerciseEntry
                   key={log.exerciseId}
                   exercise={exercise}
                   log={log}
-                  onChange={l => handleUpdateExercise(index, l)}
+                  onChange={(l) => handleUpdateExercise(index, l)}
                   onDelete={() => handleDeleteExercise(index)}
                 />
-              )
+              );
             })}
 
             <Button
@@ -355,7 +398,7 @@ export function WorkoutPage() {
               rows={2}
               placeholder="Workout notes (optional)"
               value={notes}
-              onChange={e => setNotes(e.target.value)}
+              onChange={(e) => setNotes(e.target.value)}
               sx={{ mb: 2 }}
             />
 
@@ -377,7 +420,7 @@ export function WorkoutPage() {
           color="secondary"
           variant="extended"
           onClick={handleSaveWorkout}
-          sx={{ position: 'fixed', bottom: 80, right: 16 }}
+          sx={{ position: "fixed", bottom: 80, right: 16 }}
         >
           <Save sx={{ mr: 1 }} />
           Save Workout
@@ -409,20 +452,27 @@ export function WorkoutPage() {
             fullWidth
             label="Template Name"
             value={templateName}
-            onChange={e => setTemplateName(e.target.value)}
+            onChange={(e) => setTemplateName(e.target.value)}
             sx={{ mt: 1 }}
           />
           <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
-            This will save the current exercises with their average reps and weights as a template.
+            This will save the current exercises with their average reps and
+            weights as a template.
           </Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setSaveTemplateDialogOpen(false)}>Cancel</Button>
-          <Button onClick={handleSaveTemplate} variant="contained" disabled={!templateName.trim()}>
+          <Button onClick={() => setSaveTemplateDialogOpen(false)}>
+            Cancel
+          </Button>
+          <Button
+            onClick={handleSaveTemplate}
+            variant="contained"
+            disabled={!templateName.trim()}
+          >
             Save Template
           </Button>
         </DialogActions>
       </Dialog>
     </Box>
-  )
+  );
 }
