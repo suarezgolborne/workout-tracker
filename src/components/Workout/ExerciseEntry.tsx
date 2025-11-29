@@ -49,11 +49,11 @@ export function ExerciseEntry({ exercise, log, onChange, onDelete }: Props) {
         }}
         onClick={() => setExpanded(!expanded)}
       >
-        <Box sx={{ flex: 1 }}>
-          <Typography variant="subtitle1" fontWeight="bold">
+        <Box sx={{ flex: 1, minWidth: 0, overflow: 'hidden' }}>
+          <Typography variant="subtitle1" fontWeight="bold" noWrap>
             {exercise.name}
           </Typography>
-          <Typography variant="caption">
+          <Typography variant="caption" noWrap component="div">
             {log.sets.length} sets · {totalVolume}kg volume
           </Typography>
         </Box>

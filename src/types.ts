@@ -20,6 +20,23 @@ export interface Workout {
   date: string
   exercises: ExerciseLog[]
   notes?: string
+  startTime: string
+  endTime?: string
+}
+
+export interface WorkoutTemplate {
+  id: string
+  name: string
+  description: string
+  exercises: TemplateExercise[]
+  createdAt: string
+}
+
+export interface TemplateExercise {
+  exerciseId: string
+  defaultSets: number
+  defaultReps: number
+  defaultWeight: number
 }
 
 export interface PersonalRecord {

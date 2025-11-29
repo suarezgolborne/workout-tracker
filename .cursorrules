@@ -1,0 +1,55 @@
+You are an expert in React, TypeScript, Vite, and Material UI (MUI).
+
+## Project Context
+This is a workout tracking application built with React 18, TypeScript, Vite 5, and MUI v6. Data is persisted to localStorage using custom hooks.
+
+## Code Style
+
+### TypeScript
+- Use TypeScript strict mode conventions
+- Prefer interfaces for object shapes, type aliases for unions
+- Always type function parameters and return values explicitly
+- Import types from `src/types.ts` for domain entities
+
+### React
+- Use functional components exclusively
+- Use named exports for all components except App.tsx
+- Prefer hooks for state and side effects
+- Keep components focused - extract logic to custom hooks when reusable
+
+### MUI Styling
+- Use the `sx` prop for all component styling
+- Reference theme values via the sx prop (e.g., `bgcolor: 'background.default'`)
+- Never use inline styles or separate CSS files
+- Theme customizations belong in `src/theme.ts`
+
+### State Management
+- Use existing custom hooks from `src/hooks/` for domain state
+- Use `useLocalStorage` hook for persisted state
+- Avoid prop drilling - create new hooks if needed
+- No external state management libraries
+
+## File Organization
+- Pages go in `src/pages/` - one component per route
+- Reusable components go in `src/components/{Feature}/`
+- Custom hooks go in `src/hooks/` with `use` prefix
+- Shared types go in `src/types.ts`
+
+## When Writing Code
+- Follow existing patterns in the codebase
+- Use existing hooks rather than creating new localStorage logic
+- Keep bundle size in mind - avoid adding new dependencies without justification
+- Ensure new code works on mobile viewports (this is a mobile-first app)
+
+## Domain Knowledge
+- Exercise categories: 'machine', 'free_weight', 'bodyweight'
+- WorkoutSet contains reps (number) and weight (number)
+- PersonalRecord tracks max weight per rep count
+- Workouts have startTime and endTime (ISO strings) for duration tracking
+- WorkoutTemplates save exercise configurations for quick workout starts
+- TemplateExercise stores exerciseId with default sets, reps, and weight
+
+## Common Tasks
+- Adding a new page: Create in `src/pages/`, add route in `App.tsx`, add nav item in `BottomNav.tsx`
+- Adding a new exercise field: Update `Exercise` interface in `types.ts`, update `defaultExercises.ts`
+- Adding new workout data: Extend relevant interfaces in `types.ts`, update hooks as needed

@@ -17,18 +17,18 @@ export function SetInput({ set, index, previousWeight, onChange, onDelete }: Pro
   }
 
   return (
-    <Paper variant="outlined" sx={{ p: 1.5, mb: 1 }}>
-      <Stack direction="row" alignItems="center" spacing={2}>
-        <Typography variant="body2" color="text.secondary" sx={{ minWidth: 40 }}>
+    <Paper variant="outlined" sx={{ p: 1, mb: 1, overflow: 'hidden' }}>
+      <Stack direction="row" alignItems="center" spacing={1} sx={{ flexWrap: 'nowrap' }}>
+        <Typography variant="body2" color="text.secondary" sx={{ minWidth: 36, flexShrink: 0 }}>
           Set {index + 1}
         </Typography>
 
-        <Box sx={{ flex: 1 }}>
+        <Box sx={{ flex: 1, minWidth: 0 }}>
           <Typography variant="caption" color="text.secondary">
             Reps
           </Typography>
-          <Stack direction="row" alignItems="center" spacing={0.5}>
-            <IconButton size="small" onClick={() => adjustValue('reps', -1)}>
+          <Stack direction="row" alignItems="center" spacing={0}>
+            <IconButton size="small" onClick={() => adjustValue('reps', -1)} sx={{ p: 0.5 }}>
               <Remove fontSize="small" />
             </IconButton>
             <TextField
@@ -36,20 +36,21 @@ export function SetInput({ set, index, previousWeight, onChange, onDelete }: Pro
               onChange={e => onChange({ ...set, reps: Math.max(0, parseInt(e.target.value) || 0) })}
               size="small"
               type="number"
-              inputProps={{ min: 0, style: { textAlign: 'center', width: 50 } }}
+              sx={{ width: 56 }}
+              inputProps={{ min: 0, style: { textAlign: 'center', padding: '4px 0' } }}
             />
-            <IconButton size="small" onClick={() => adjustValue('reps', 1)}>
+            <IconButton size="small" onClick={() => adjustValue('reps', 1)} sx={{ p: 0.5 }}>
               <Add fontSize="small" />
             </IconButton>
           </Stack>
         </Box>
 
-        <Box sx={{ flex: 1 }}>
-          <Typography variant="caption" color="text.secondary">
+        <Box sx={{ flex: 1, minWidth: 0 }}>
+          <Typography variant="caption" color="text.secondary" noWrap>
             Weight (kg)
           </Typography>
-          <Stack direction="row" alignItems="center" spacing={0.5}>
-            <IconButton size="small" onClick={() => adjustValue('weight', -2.5)}>
+          <Stack direction="row" alignItems="center" spacing={0}>
+            <IconButton size="small" onClick={() => adjustValue('weight', -2.5)} sx={{ p: 0.5 }}>
               <Remove fontSize="small" />
             </IconButton>
             <TextField
@@ -57,20 +58,21 @@ export function SetInput({ set, index, previousWeight, onChange, onDelete }: Pro
               onChange={e => onChange({ ...set, weight: Math.max(0, parseFloat(e.target.value) || 0) })}
               size="small"
               type="number"
-              inputProps={{ min: 0, step: 2.5, style: { textAlign: 'center', width: 60 } }}
+              sx={{ width: 64 }}
+              inputProps={{ min: 0, step: 2.5, style: { textAlign: 'center', padding: '4px 0' } }}
             />
-            <IconButton size="small" onClick={() => adjustValue('weight', 2.5)}>
+            <IconButton size="small" onClick={() => adjustValue('weight', 2.5)} sx={{ p: 0.5 }}>
               <Add fontSize="small" />
             </IconButton>
           </Stack>
           {previousWeight && previousWeight !== set.weight && (
-            <Typography variant="caption" color="text.secondary">
+            <Typography variant="caption" color="text.secondary" noWrap>
               Last: {previousWeight}kg
             </Typography>
           )}
         </Box>
 
-        <IconButton size="small" color="error" onClick={onDelete}>
+        <IconButton size="small" color="error" onClick={onDelete} sx={{ p: 0.5, flexShrink: 0 }}>
           <Delete fontSize="small" />
         </IconButton>
       </Stack>
