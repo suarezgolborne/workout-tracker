@@ -1,0 +1,31 @@
+import { BottomNavigation, BottomNavigationAction, Paper } from '@mui/material'
+import { FitnessCenter, History, List, TrendingUp } from '@mui/icons-material'
+import { useLocation, useNavigate } from 'react-router-dom'
+
+const navItems = [
+  { label: 'Workout', icon: <FitnessCenter />, path: '/' },
+  { label: 'History', icon: <History />, path: '/history' },
+  { label: 'Exercises', icon: <List />, path: '/exercises' },
+  { label: 'Progress', icon: <TrendingUp />, path: '/progress' },
+]
+
+export function BottomNav() {
+  const location = useLocation()
+  const navigate = useNavigate()
+
+  const currentValue = navItems.findIndex(item => item.path === location.pathname)
+
+  return (
+    <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 1000 }} elevation={3}>
+      <BottomNavigation
+        value={currentValue >= 0 ? currentValue : 0}
+        onChange={(_, newValue) => navigate(navItems[newValue].path)}
+        showLabels
+      >
+        {navItems.map(item => (
+          <BottomNavigationAction key={item.path} label={item.label} icon={item.icon} />
+        ))}
+      </BottomNavigation>
+    </Paper>
+  )
+}
