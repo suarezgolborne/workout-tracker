@@ -8,8 +8,6 @@ import {
   DialogActions,
   Typography,
   TextField,
-  AppBar,
-  Toolbar,
   IconButton,
   List,
   ListItemButton,
@@ -26,6 +24,7 @@ import {
   Delete,
   Edit,
 } from "@mui/icons-material";
+import { PageAppBar } from "../components/Layout/PageAppBar";
 import { ExerciseLibrary } from "../components/Exercises/ExerciseLibrary";
 import { ExerciseEntry } from "../components/Workout/ExerciseEntry";
 import { useWorkouts } from "../hooks/useWorkouts";
@@ -309,16 +308,14 @@ export function WorkoutPage() {
 
   return (
     <Box sx={{ pb: 10 }}>
-      <AppBar position="static" color="default" elevation={0}>
-        <Toolbar>
-          <Typography variant="h6" sx={{ flex: 1 }}>
-            Current Workout
-          </Typography>
+      <PageAppBar
+        title="Current Workout"
+        actions={
           <IconButton onClick={handleCancelWorkout} color="error">
             <Close />
           </IconButton>
-        </Toolbar>
-      </AppBar>
+        }
+      />
 
       <Box sx={{ p: 2, display: "flex", gap: 2, flexWrap: "wrap" }}>
         <TextField

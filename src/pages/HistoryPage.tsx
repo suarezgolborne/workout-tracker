@@ -2,8 +2,6 @@ import { useState } from 'react'
 import {
   Box,
   Typography,
-  AppBar,
-  Toolbar,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -11,6 +9,7 @@ import {
   TextField,
   Button,
 } from '@mui/material'
+import { PageAppBar } from '../components/Layout/PageAppBar'
 import { WorkoutHistory } from '../components/Workout/WorkoutHistory'
 import { useWorkoutTemplates } from '../hooks/useWorkoutTemplates'
 import { useExercises } from '../hooks/useExercises'
@@ -43,11 +42,7 @@ export function HistoryPage() {
 
   return (
     <Box>
-      <AppBar position="static" color="default" elevation={0}>
-        <Toolbar>
-          <Typography variant="h6">Workout History</Typography>
-        </Toolbar>
-      </AppBar>
+      <PageAppBar title="Workout History" />
       <Box sx={{ p: 2 }}>
         <WorkoutHistory onSaveAsTemplate={handleSaveAsTemplate} />
       </Box>

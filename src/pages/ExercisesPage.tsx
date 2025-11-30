@@ -1,14 +1,11 @@
-import { Box, Typography, AppBar, Toolbar } from '@mui/material'
+import { Box } from '@mui/material'
+import { PageAppBar } from '../components/Layout/PageAppBar'
 import { ExerciseLibrary } from '../components/Exercises/ExerciseLibrary'
 
 export function ExercisesPage() {
   return (
     <Box>
-      <AppBar position="static" color="default" elevation={0}>
-        <Toolbar>
-          <Typography variant="h6">Exercise Library</Typography>
-        </Toolbar>
-      </AppBar>
+      <PageAppBar title="Exercise Library" />
       <Box sx={{ p: 2, pb: 10 }}>
         <ExerciseLibrary />
       </Box>
