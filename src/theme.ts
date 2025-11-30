@@ -521,11 +521,10 @@ export const theme = createTheme({
     MuiAppBar: {
       styleOverrides: {
         root: {
-          backgroundColor: "rgba(255,255,255,0.95)",
-          backdropFilter: "blur(12px)",
           color: palette.text.primary,
-          boxShadow: "none",
-          borderBottom: "2px solid #E4E4E7",
+          // boxShadow: "none",
+          // borderBottom: "2px solid #E4E4E7",
+          background: "none",
         },
       },
     },

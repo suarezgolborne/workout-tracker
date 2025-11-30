@@ -1,6 +1,6 @@
-import { Box } from '@mui/material'
-import { PageAppBar } from '../components/Layout/PageAppBar'
-import { ExerciseLibrary } from '../components/Exercises/ExerciseLibrary'
+import { Box } from "@mui/material";
+import { PageAppBar } from "../components/Layout/PageAppBar";
+import { ExerciseLibrary } from "../components/Exercises/ExerciseLibrary";
 
 export function ExercisesPage() {
   return (
@@ -10,5 +10,5 @@ export function ExercisesPage() {
         <ExerciseLibrary />
       </Box>
     </Box>
-  )
+  );
 }
