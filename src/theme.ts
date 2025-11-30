@@ -549,7 +549,6 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           height: 72,
-          borderTop: "1px solid #E4E4E7",
           background: "none",
         },
       },

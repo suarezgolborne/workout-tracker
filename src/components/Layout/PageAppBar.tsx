@@ -65,7 +65,7 @@ const wordStyles = [
     color: "#0F0F0F",
     letterSpacing: "-0.02em",
     animation: morphToBlackCondensed,
-    paddingBottom: "1px", // Compensate for first word's text shadow
+    paddingTop: "2px", // Align with first word's shadow
   },
 ];
 
@@ -85,7 +85,7 @@ export function PageAppBar({ title, actions, sx }: PageAppBarProps) {
   const calculateFontSize = useCallback(() => {
     if (!containerRef.current || !textRef.current) return;
 
-    // Get available width with a small safety margin
+    // Get available width with small safety margin
     const containerWidth = containerRef.current.clientWidth - 4;
     const minSize = 16;
     const maxSize = 72;
@@ -158,7 +158,7 @@ export function PageAppBar({ title, actions, sx }: PageAppBarProps) {
             sx={{
               display: "inline-flex",
               alignItems: "center",
-              gap: "0.25em",
+              gap: "0.1em",
               whiteSpace: "nowrap",
               fontSize: `${fontSize}px`,
             }}
@@ -178,7 +178,7 @@ export function PageAppBar({ title, actions, sx }: PageAppBarProps) {
                     color: style.color,
                     letterSpacing: style.letterSpacing,
                     textShadow: style.textShadow || "none",
-                    paddingBottom: style.paddingBottom || 0,
+                    paddingTop: style.paddingTop || 0,
                     opacity: isReady ? 1 : 0,
                     animation: isReady
                       ? `${style.animation} 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards`
