@@ -419,7 +419,7 @@ export function WorkoutPage() {
           startIcon={<Save />}
           sx={{
             position: "fixed",
-            bottom: 88,
+            bottom: (theme) => `calc(${theme.spacing(12)} + env(safe-area-inset-bottom))`,
             right: 16,
             borderRadius: 100,
             px: 3,
@@ -435,9 +435,39 @@ export function WorkoutPage() {
         open={exerciseDialogOpen}
         onClose={() => setExerciseDialogOpen(false)}
         fullWidth
-        maxWidth="md"
+        maxWidth={false}
+        PaperProps={{
+          sx: (theme) => ({
+            width: "calc(100% - 32px)",
+            maxWidth: 900,
+            mt: `max(${theme.spacing(2)}, env(safe-area-inset-top))`,
+            mb: theme.spacing(2),
+            maxHeight: "calc(100% - 128px)",
+          }),
+        }}
+        sx={{
+          "& .MuiDialog-container": {
+            alignItems: "flex-start",
+          },
+        }}
       >
-        <DialogTitle>Add Exercise</DialogTitle>
+        <DialogTitle
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            pr: 1,
+          }}
+        >
+          Add Exercise
+          <IconButton
+            aria-label="Close"
+            onClick={() => setExerciseDialogOpen(false)}
+            edge="end"
+          >
+            <Close />
+          </IconButton>
+        </DialogTitle>
         <DialogContent>
           <ExerciseLibrary onSelect={handleAddExercise} selectionMode />
         </DialogContent>
