@@ -198,6 +198,34 @@ export function ExerciseLibrary({ onSelect, selectionMode = false }: Props) {
               }}
               divider
             >
+              {/* Pictogram on the left */}
+              {exercise.pictogram && (
+                <Box
+                  sx={{
+                    width: 48,
+                    height: 48,
+                    mr: 2,
+                    flexShrink: 0,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    bgcolor: "background.paper",
+                  }}
+                >
+                  <Box
+                    component="img"
+                    src={exercise.pictogram}
+                    alt={exercise.name}
+                    sx={{
+                      width: 40,
+                      height: 40,
+                      objectFit: "contain",
+                      filter: (theme) =>
+                        theme.palette.mode === "dark" ? "invert(1)" : "none",
+                    }}
+                  />
+                </Box>
+              )}
               <ListItemText
                 primary={
                   <Typography variant="body1" fontWeight={600}>

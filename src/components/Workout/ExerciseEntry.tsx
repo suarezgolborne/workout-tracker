@@ -1,61 +1,96 @@
-import { Box, Button, Typography, IconButton, Collapse, Paper } from '@mui/material'
-import { Add, Delete, ExpandMore, ExpandLess } from '@mui/icons-material'
-import { useState } from 'react'
-import { ExerciseLog, WorkoutSet, Exercise } from '../../types'
-import { SetInput } from './SetInput'
-import { usePersonalRecords } from '../../hooks/usePersonalRecords'
+import {
+  Box,
+  Button,
+  Typography,
+  IconButton,
+  Collapse,
+  Paper,
+} from "@mui/material";
+import { Add, Delete, ExpandMore, ExpandLess } from "@mui/icons-material";
+import { useState } from "react";
+import { ExerciseLog, WorkoutSet, Exercise } from "../../types";
+import { SetInput } from "./SetInput";
+import { usePersonalRecords } from "../../hooks/usePersonalRecords";
 
 interface Props {
-  exercise: Exercise
-  log: ExerciseLog
-  onChange: (log: ExerciseLog) => void
-  onDelete: () => void
+  exercise: Exercise;
+  log: ExerciseLog;
+  onChange: (log: ExerciseLog) => void;
+  onDelete: () => void;
 }
 
 export function ExerciseEntry({ exercise, log, onChange, onDelete }: Props) {
-  const [expanded, setExpanded] = useState(true)
-  const { getMaxWeight } = usePersonalRecords()
+  const [expanded, setExpanded] = useState(true);
+  const { getMaxWeight } = usePersonalRecords();
 
   const addSet = () => {
-    const lastSet = log.sets[log.sets.length - 1]
+    const lastSet = log.sets[log.sets.length - 1];
     const newSet: WorkoutSet = lastSet
       ? { ...lastSet }
-      : { reps: 10, weight: 0 }
-    onChange({ ...log, sets: [...log.sets, newSet] })
-  }
+      : { reps: 10, weight: 0 };
+    onChange({ ...log, sets: [...log.sets, newSet] });
+  };
 
   const updateSet = (index: number, set: WorkoutSet) => {
-    const newSets = [...log.sets]
-    newSets[index] = set
-    onChange({ ...log, sets: newSets })
-  }
+    const newSets = [...log.sets];
+    newSets[index] = set;
+    onChange({ ...log, sets: newSets });
+  };
 
   const deleteSet = (index: number) => {
-    onChange({ ...log, sets: log.sets.filter((_, i) => i !== index) })
-  }
+    onChange({ ...log, sets: log.sets.filter((_, i) => i !== index) });
+  };
 
-  const totalVolume = log.sets.reduce((sum, s) => sum + s.reps * s.weight, 0)
+  const totalVolume = log.sets.reduce((sum, s) => sum + s.reps * s.weight, 0);
 
   return (
-    <Paper sx={{ mb: 2, overflow: 'hidden' }}>
+    <Paper sx={{ mb: 2, overflow: "hidden" }}>
       <Box
         sx={{
           p: 2,
-          display: 'flex',
-          alignItems: 'center',
+          display: "flex",
+          alignItems: "center",
           background: (theme) =>
             `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
-          color: 'primary.contrastText',
-          cursor: 'pointer',
-          transition: 'all 0.2s',
-          '&:hover': {
+          color: "primary.contrastText",
+          cursor: "pointer",
+          transition: "all 0.2s",
+          "&:hover": {
             background: (theme) =>
               `linear-gradient(135deg, ${theme.palette.primary.light} 0%, ${theme.palette.primary.main} 100%)`,
           },
         }}
         onClick={() => setExpanded(!expanded)}
       >
-        <Box sx={{ flex: 1, minWidth: 0, overflow: 'hidden' }}>
+        {/* Pictogram on the left */}
+        {exercise.pictogram && (
+          <Box
+            sx={{
+              width: 44,
+              height: 44,
+              mr: 1.5,
+              flexShrink: 0,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              bgcolor: "rgba(255, 255, 255, 0.15)",
+              borderRadius: 1,
+            }}
+          >
+            <Box
+              component="img"
+              src={exercise.pictogram}
+              alt={exercise.name}
+              sx={{
+                width: 36,
+                height: 36,
+                objectFit: "contain",
+                filter: "invert(1) brightness(1.2)",
+              }}
+            />
+          </Box>
+        )}
+        <Box sx={{ flex: 1, minWidth: 0, overflow: "hidden" }}>
           <Typography variant="subtitle1" fontWeight="bold" noWrap>
             {exercise.name}
           </Typography>
@@ -65,10 +100,10 @@ export function ExerciseEntry({ exercise, log, onChange, onDelete }: Props) {
         </Box>
         <IconButton
           size="small"
-          sx={{ color: 'inherit', mr: 1 }}
-          onClick={e => {
-            e.stopPropagation()
-            onDelete()
+          sx={{ color: "inherit", mr: 1 }}
+          onClick={(e) => {
+            e.stopPropagation();
+            onDelete();
           }}
         >
           <Delete />
@@ -85,16 +120,22 @@ export function ExerciseEntry({ exercise, log, onChange, onDelete }: Props) {
               index={index}
               isLast={index === log.sets.length - 1}
               previousWeight={getMaxWeight(exercise.id, set.reps)}
-              onChange={s => updateSet(index, s)}
+              onChange={(s) => updateSet(index, s)}
               onDelete={() => deleteSet(index)}
             />
           ))}
 
-          <Button startIcon={<Add />} onClick={addSet} variant="outlined" fullWidth sx={{ mt: 1 }}>
+          <Button
+            startIcon={<Add />}
+            onClick={addSet}
+            variant="outlined"
+            fullWidth
+            sx={{ mt: 1 }}
+          >
             Add Set
           </Button>
         </Box>
       </Collapse>
     </Paper>
-  )
+  );
 }
