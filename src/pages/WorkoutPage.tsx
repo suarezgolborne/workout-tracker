@@ -23,6 +23,7 @@ import {
   BookmarkAdd,
   Delete,
   Edit,
+  IosShare,
 } from "@mui/icons-material";
 import { PageAppBar } from "../components/Layout/PageAppBar";
 import { ExerciseLibrary } from "../components/Exercises/ExerciseLibrary";
@@ -178,6 +179,31 @@ export function WorkoutPage() {
     setEditTemplateDialogOpen(false);
   };
 
+  const handleAddToHomeScreen = async () => {
+    const shareData = {
+      title: "Workout Tracker",
+      text: "Add Workout Tracker to your home screen for fast logging.",
+      url: window.location.href,
+    };
+
+    if (navigator.share && (!navigator.canShare || navigator.canShare(shareData))) {
+      try {
+        await navigator.share(shareData);
+        return;
+      } catch (error) {
+        if ((error as DOMException).name === "AbortError") return;
+      }
+    }
+
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(window.location.href);
+      window.alert("Link copied! Use your browser's Add to Home Screen option.");
+      return;
+    }
+
+    window.alert("Sharing is not supported on this device. Copy the link to pin it.");
+  };
+
   if (!workoutStarted) {
     return (
       <Box sx={{ textAlign: "center", pt: 8 }}>
@@ -213,6 +239,36 @@ export function WorkoutPage() {
               Use workout template
             </Button>
           )}
+          <Button
+            variant="contained"
+            color="secondary"
+            size="large"
+            onClick={() => void handleAddToHomeScreen()}
+            startIcon={<IosShare />}
+            sx={{
+              width: "100%",
+              maxWidth: 360,
+              border: (theme) => `3px solid ${theme.palette.text.primary}`,
+              borderRadius: 3,
+              fontWeight: 900,
+              letterSpacing: 1,
+              textTransform: "uppercase",
+              boxShadow: (theme) =>
+                `6px 6px 0 ${theme.palette.background.paper}, 10px 10px 0 ${theme.palette.text.primary}`,
+              transform: "skew(-2deg)",
+              transition: "all 120ms ease",
+              bgcolor: (theme) => theme.palette.secondary.main,
+              color: (theme) => theme.palette.secondary.contrastText,
+              "&:hover": {
+                bgcolor: (theme) => theme.palette.secondary.dark,
+                boxShadow: (theme) =>
+                  `4px 4px 0 ${theme.palette.background.paper}, 8px 8px 0 ${theme.palette.text.primary}`,
+                transform: "skew(0deg) scale(0.99)",
+              },
+            }}
+          >
+            Add to Home Screen
+          </Button>
         </Box>
 
         <Dialog
