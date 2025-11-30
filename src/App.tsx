@@ -8,7 +8,14 @@ import { ProgressPage } from './pages/ProgressPage'
 
 function App() {
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: 'background.default', pb: 8 }}>
+    <Box
+      sx={theme => ({
+        minHeight: '100vh',
+        bgcolor: 'background.default',
+        pb: `calc(${theme.spacing(8)} + env(safe-area-inset-bottom))`,
+        pt: 'env(safe-area-inset-top)',
+      })}
+    >
       <Routes>
         <Route path="/" element={<WorkoutPage />} />
         <Route path="/history" element={<HistoryPage />} />
