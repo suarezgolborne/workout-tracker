@@ -202,49 +202,15 @@ export function WorkoutPage() {
   }, []);
 
   const handleAddToHomeScreen = async () => {
-    const isIos = /iphone|ipad|ipod/i.test(window.navigator.userAgent);
-    const isStandalone =
-      window.matchMedia("(display-mode: standalone)").matches ||
-      (window.navigator as unknown as { standalone?: boolean }).standalone ===
-        true;
-
+    // Try native install prompt first (Android/desktop Chrome)
     if (deferredPrompt) {
       await deferredPrompt.prompt();
-      const { outcome } = await deferredPrompt.userChoice;
-      if (outcome !== "accepted") {
-        setInstallHintOpen(true);
-      }
       setDeferredPrompt(null);
       return;
     }
 
-    if (isIos && !isStandalone) {
-      setInstallHintOpen(true);
-      return;
-    }
-
-    const shareData = {
-      title: "Workout Tracker",
-      text: "Add Workout Tracker to your home screen for fast logging.",
-      url: window.location.href,
-    };
-
-    if (navigator.share && (!navigator.canShare || navigator.canShare(shareData))) {
-      try {
-        await navigator.share(shareData);
-        return;
-      } catch (error) {
-        if ((error as DOMException).name === "AbortError") return;
-      }
-    }
-
-    if (navigator.clipboard?.writeText) {
-      await navigator.clipboard.writeText(window.location.href);
-      window.alert("Link copied! Use your browser's Add to Home Screen option.");
-      return;
-    }
-
-    window.alert("Sharing is not supported on this device. Copy the link to pin it.");
+    // Show manual instructions dialog (works for iOS and all platforms)
+    setInstallHintOpen(true);
   };
 
   if (!workoutStarted) {
@@ -431,7 +397,8 @@ export function WorkoutPage() {
               <ListItemText primary="3. Confirm to install" />
             </List>
             <Typography variant="body2" color="text.secondary">
-              Tip: On Android, look for the install banner or browser menu option.
+              Tip: On Android, look for the install banner or browser menu
+              option.
             </Typography>
           </DialogContent>
           <DialogActions>
@@ -555,7 +522,8 @@ export function WorkoutPage() {
           startIcon={<Save />}
           sx={{
             position: "fixed",
-            bottom: (theme) => `calc(${theme.spacing(12)} + env(safe-area-inset-bottom))`,
+            bottom: (theme) =>
+              `calc(${theme.spacing(12)} + env(safe-area-inset-bottom))`,
             right: 16,
             borderRadius: 100,
             px: 3,
