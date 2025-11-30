@@ -21,7 +21,17 @@ export function BottomNav() {
   }
 
   return (
-    <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 1000 }} elevation={3}>
+    <Paper
+      sx={{
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        zIndex: 1000,
+        pb: 'env(safe-area-inset-bottom)',
+      }}
+      elevation={3}
+    >
       <BottomNavigation
         value={currentValue >= 0 ? currentValue : 0}
         onChange={handleNavChange}
