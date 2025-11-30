@@ -217,7 +217,7 @@ export function WorkoutPage() {
     return (
       <Box sx={{ textAlign: "center", pt: 8 }}>
         <Typography variant="h5" gutterBottom>
-          Ready to workout?
+          Ready to jack your body?
         </Typography>
         <Typography color="text.secondary" sx={{ mb: 4 }}>
           Start a new session to log your exercises
