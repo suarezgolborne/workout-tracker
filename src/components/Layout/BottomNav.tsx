@@ -15,11 +15,16 @@ export function BottomNav() {
 
   const currentValue = navItems.findIndex(item => item.path === location.pathname)
 
+  const handleNavChange = (_: React.SyntheticEvent, newValue: number) => {
+    window.scrollTo(0, 0)
+    navigate(navItems[newValue].path)
+  }
+
   return (
     <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 1000 }} elevation={3}>
       <BottomNavigation
         value={currentValue >= 0 ? currentValue : 0}
-        onChange={(_, newValue) => navigate(navItems[newValue].path)}
+        onChange={handleNavChange}
         showLabels
       >
         {navItems.map(item => (

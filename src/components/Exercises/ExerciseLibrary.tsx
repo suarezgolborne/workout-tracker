@@ -10,7 +10,7 @@ import {
   Typography,
   Stack,
 } from '@mui/material'
-import { Search } from '@mui/icons-material'
+import { Search, FitnessCenter, AccessibilityNew } from '@mui/icons-material'
 import { useExercises } from '../../hooks/useExercises'
 import { usePersonalRecords } from '../../hooks/usePersonalRecords'
 import { Exercise } from '../../types'
@@ -28,13 +28,31 @@ const categoryLabels: Record<string, string> = {
 
 export function ExerciseLibrary({ onSelect, selectionMode = false }: Props) {
   const [search, setSearch] = useState('')
-  const [selectedCategory, setSelectedCategory] = useState<string | undefined>()
-  const [selectedMuscle, setSelectedMuscle] = useState<string | undefined>()
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
+  const [selectedMuscles, setSelectedMuscles] = useState<string[]>([])
 
-  const { filterExercises, categories, muscleGroups } = useExercises()
+  const { exercises, categories, muscleGroups } = useExercises()
   const { getRecord } = usePersonalRecords()
 
-  const filtered = filterExercises(search, selectedCategory, selectedMuscle)
+  // Filter with multi-select support
+  const filtered = exercises.filter(exercise => {
+    const matchesSearch = !search || exercise.name.toLowerCase().includes(search.toLowerCase())
+    const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(exercise.category)
+    const matchesMuscle = selectedMuscles.length === 0 || selectedMuscles.includes(exercise.muscleGroup)
+    return matchesSearch && matchesCategory && matchesMuscle
+  })
+
+  const toggleCategory = (cat: string) => {
+    setSelectedCategories(prev =>
+      prev.includes(cat) ? prev.filter(c => c !== cat) : [...prev, cat]
+    )
+  }
+
+  const toggleMuscle = (muscle: string) => {
+    setSelectedMuscles(prev =>
+      prev.includes(muscle) ? prev.filter(m => m !== muscle) : [...prev, muscle]
+    )
+  }
 
   const formatPR = (exerciseId: string): string | null => {
     const record = getRecord(exerciseId)
@@ -63,30 +81,54 @@ export function ExerciseLibrary({ onSelect, selectionMode = false }: Props) {
         }}
       />
 
-      <Stack direction="row" spacing={1} sx={{ mb: 1, flexWrap: 'wrap', gap: 1 }}>
-        {categories.map(cat => (
-          <Chip
-            key={cat}
-            label={categoryLabels[cat] || cat}
-            onClick={() => setSelectedCategory(selectedCategory === cat ? undefined : cat)}
-            color={selectedCategory === cat ? 'primary' : 'default'}
-            size="small"
-          />
-        ))}
-      </Stack>
+      {/* Type Filter */}
+      <Box sx={{ mb: 1.5 }}>
+        <Stack direction="row" alignItems="center" spacing={0.5} sx={{ mb: 0.5 }}>
+          <FitnessCenter sx={{ fontSize: 14, color: 'text.secondary' }} />
+          <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary', textTransform: 'uppercase', letterSpacing: 0.5, fontSize: '0.65rem' }}>
+            Type
+          </Typography>
+        </Stack>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, justifyContent: 'flex-start' }}>
+          {categories.map(cat => (
+            <Chip
+              key={cat}
+              label={categoryLabels[cat] || cat}
+              onClick={() => toggleCategory(cat)}
+              color={selectedCategories.includes(cat) ? 'primary' : 'default'}
+              size="small"
+              variant={selectedCategories.includes(cat) ? 'filled' : 'outlined'}
+            />
+          ))}
+        </Box>
+      </Box>
 
-      <Stack direction="row" spacing={1} sx={{ mb: 2, flexWrap: 'wrap', gap: 1 }}>
-        {muscleGroups.map(muscle => (
-          <Chip
-            key={muscle}
-            label={muscle}
-            onClick={() => setSelectedMuscle(selectedMuscle === muscle ? undefined : muscle)}
-            color={selectedMuscle === muscle ? 'secondary' : 'default'}
-            size="small"
-            variant="outlined"
-          />
-        ))}
-      </Stack>
+      {/* Muscle Group Filter */}
+      <Box sx={{ mb: 2 }}>
+        <Stack direction="row" alignItems="center" spacing={0.5} sx={{ mb: 0.5 }}>
+          <AccessibilityNew sx={{ fontSize: 14, color: 'text.secondary' }} />
+          <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary', textTransform: 'uppercase', letterSpacing: 0.5, fontSize: '0.65rem' }}>
+            Muscle Group
+          </Typography>
+        </Stack>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, justifyContent: 'flex-start' }}>
+          {muscleGroups.map(muscle => (
+            <Chip
+              key={muscle}
+              label={muscle}
+              onClick={() => toggleMuscle(muscle)}
+              color={selectedMuscles.includes(muscle) ? 'secondary' : 'default'}
+              size="small"
+              variant={selectedMuscles.includes(muscle) ? 'filled' : 'outlined'}
+            />
+          ))}
+        </Box>
+      </Box>
+
+      {/* Results count */}
+      <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 1 }}>
+        {filtered.length} exercise{filtered.length !== 1 ? 's' : ''}
+      </Typography>
 
       <List disablePadding>
         {filtered.map(exercise => {
@@ -99,18 +141,23 @@ export function ExerciseLibrary({ onSelect, selectionMode = false }: Props) {
                 cursor: selectionMode ? 'pointer' : 'default',
                 '&:hover': selectionMode ? { bgcolor: 'action.hover' } : {},
                 borderRadius: 1,
+                py: 1.5,
               }}
               divider
             >
               <ListItemText
-                primary={exercise.name}
+                primary={
+                  <Typography variant="body1" fontWeight={600}>
+                    {exercise.name}
+                  </Typography>
+                }
                 secondary={
-                  <Stack direction="row" spacing={1} alignItems="center">
+                  <Stack direction="row" spacing={1} alignItems="center" sx={{ mt: 0.5 }}>
                     <Typography variant="caption" color="text.secondary">
                       {exercise.muscleGroup}
                     </Typography>
                     {pr && (
-                      <Typography variant="caption" color="secondary" fontWeight="bold">
+                      <Typography variant="caption" color="secondary.main" fontWeight="bold">
                         {pr}
                       </Typography>
                     )}

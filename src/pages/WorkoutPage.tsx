@@ -7,7 +7,6 @@ import {
   DialogContent,
   DialogActions,
   Typography,
-  Fab,
   TextField,
   AppBar,
   Toolbar,
@@ -416,22 +415,30 @@ export function WorkoutPage() {
       </Box>
 
       {activeWorkout.length > 0 && (
-        <Fab
+        <Button
+          variant="contained"
           color="secondary"
-          variant="extended"
           onClick={handleSaveWorkout}
-          sx={{ position: "fixed", bottom: 80, right: 16 }}
+          startIcon={<Save />}
+          sx={{
+            position: "fixed",
+            bottom: 88,
+            right: 16,
+            borderRadius: 100,
+            px: 3,
+            py: 1.5,
+            boxShadow: 3,
+          }}
         >
-          <Save sx={{ mr: 1 }} />
           Save Workout
-        </Fab>
+        </Button>
       )}
 
       <Dialog
         open={exerciseDialogOpen}
         onClose={() => setExerciseDialogOpen(false)}
         fullWidth
-        maxWidth="sm"
+        maxWidth="md"
       >
         <DialogTitle>Add Exercise</DialogTitle>
         <DialogContent>

@@ -83,6 +83,7 @@ export function ExerciseEntry({ exercise, log, onChange, onDelete }: Props) {
               key={index}
               set={set}
               index={index}
+              isLast={index === log.sets.length - 1}
               previousWeight={getMaxWeight(exercise.id, set.reps)}
               onChange={s => updateSet(index, s)}
               onDelete={() => deleteSet(index)}
