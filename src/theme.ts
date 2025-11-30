@@ -1,4 +1,4 @@
-import { createTheme, alpha } from '@mui/material/styles'
+import { createTheme, alpha } from "@mui/material/styles";
 
 // ============================================================================
 // M3 EXPRESSIVE THEME - "KINETIC ENERGY"
@@ -11,79 +11,79 @@ import { createTheme, alpha } from '@mui/material/styles'
 // M3 Expressive uses three accent layers (primary, secondary, tertiary)
 // with high chroma (48+) for vibrant, energetic feel
 const palette = {
-  mode: 'light' as const,
+  mode: "light" as const,
 
   // PRIMARY: Neon Lime - High energy, athletic, modern
   primary: {
-    main: '#CCFF00',      // Chroma ~80, very vibrant
-    light: '#E8FF80',     // Lighter tint for hover states
-    dark: '#99CC00',      // Darker shade for pressed/contrast
-    contrastText: '#1A1C00', // Near-black for readability
+    main: "#CCFF00", // Chroma ~80, very vibrant
+    light: "#E8FF80", // Lighter tint for hover states
+    dark: "#99CC00", // Darker shade for pressed/contrast
+    contrastText: "#1A1C00", // Near-black for readability
   },
 
   // SECONDARY: Electric Violet - Creative, bold, expressive
   secondary: {
-    main: '#7C3AED',      // Vibrant purple (violet-500)
-    light: '#A78BFA',     // Light violet
-    dark: '#5B21B6',      // Deep violet
-    contrastText: '#FFFFFF',
+    main: "#7C3AED", // Vibrant purple (violet-500)
+    light: "#A78BFA", // Light violet
+    dark: "#5B21B6", // Deep violet
+    contrastText: "#FFFFFF",
   },
 
   // TERTIARY: Hot Coral - Energetic accent, warmth
   tertiary: {
-    main: '#FF6B6B',      // Vibrant coral/red
-    light: '#FFA8A8',     // Light coral
-    dark: '#EE5A5A',      // Deep coral
-    contrastText: '#FFFFFF',
+    main: "#FF6B6B", // Vibrant coral/red
+    light: "#FFA8A8", // Light coral
+    dark: "#EE5A5A", // Deep coral
+    contrastText: "#FFFFFF",
   },
 
   // SURFACE COLORS - Subtle tints for depth
   background: {
-    default: '#FAFAFA',   // Warm off-white
-    paper: '#FFFFFF',
+    default: "#efeeee", // Warm off-white
+    paper: "#FFFFFF",
   },
 
   // TEXT
   text: {
-    primary: '#0F0F0F',   // Rich black
-    secondary: '#52525B', // Zinc-600
+    primary: "#0F0F0F", // Rich black
+    secondary: "#52525B", // Zinc-600
   },
 
   // SEMANTIC COLORS - High saturation
   success: {
-    main: '#10B981',      // Emerald
-    light: '#34D399',
-    dark: '#059669',
-    contrastText: '#FFFFFF',
+    main: "#10B981", // Emerald
+    light: "#34D399",
+    dark: "#059669",
+    contrastText: "#FFFFFF",
   },
   error: {
-    main: '#EF4444',      // Red-500
-    light: '#F87171',
-    dark: '#DC2626',
-    contrastText: '#FFFFFF',
+    main: "#EF4444", // Red-500
+    light: "#F87171",
+    dark: "#DC2626",
+    contrastText: "#FFFFFF",
   },
   warning: {
-    main: '#F59E0B',      // Amber
-    light: '#FBBF24',
-    dark: '#D97706',
-    contrastText: '#000000',
+    main: "#F59E0B", // Amber
+    light: "#FBBF24",
+    dark: "#D97706",
+    contrastText: "#000000",
   },
   info: {
-    main: '#06B6D4',      // Cyan
-    light: '#22D3EE',
-    dark: '#0891B2',
-    contrastText: '#FFFFFF',
+    main: "#06B6D4", // Cyan
+    light: "#22D3EE",
+    dark: "#0891B2",
+    contrastText: "#FFFFFF",
   },
 
   // ACTION COLORS
   action: {
-    active: '#7C3AED',
-    hover: alpha('#7C3AED', 0.08),
-    selected: alpha('#7C3AED', 0.12),
-    disabled: '#A1A1AA',
-    disabledBackground: '#E4E4E7',
+    active: "#7C3AED",
+    hover: alpha("#7C3AED", 0.08),
+    selected: alpha("#7C3AED", 0.12),
+    disabled: "#A1A1AA",
+    disabledBackground: "#E4E4E7",
   },
-}
+};
 
 // 2. TYPOGRAPHY - M3 Expressive uses emphasized styles
 // Display/Headline: Heavy weights (700-800), tight tracking
@@ -94,56 +94,56 @@ const typography = {
   h1: {
     fontFamily: '"Outfit", sans-serif',
     fontWeight: 800,
-    fontSize: '3.5rem',
+    fontSize: "3.5rem",
     lineHeight: 1.1,
-    letterSpacing: '-0.03em',
+    letterSpacing: "-0.03em",
   },
   h2: {
     fontFamily: '"Outfit", sans-serif',
     fontWeight: 800,
-    fontSize: '2.75rem',
+    fontSize: "2.75rem",
     lineHeight: 1.15,
-    letterSpacing: '-0.02em',
+    letterSpacing: "-0.02em",
   },
   h3: {
     fontFamily: '"Outfit", sans-serif',
     fontWeight: 800,
-    fontSize: '2.25rem',
+    fontSize: "2.25rem",
     lineHeight: 1.2,
-    letterSpacing: '-0.02em',
+    letterSpacing: "-0.02em",
   },
 
   // HEADLINE - Bold, expressive
   h4: {
     fontFamily: '"Outfit", sans-serif',
     fontWeight: 700,
-    fontSize: '1.75rem',
+    fontSize: "1.75rem",
     lineHeight: 1.25,
-    letterSpacing: '-0.01em',
+    letterSpacing: "-0.01em",
   },
   h5: {
     fontFamily: '"Outfit", sans-serif',
     fontWeight: 700,
-    fontSize: '1.5rem',
+    fontSize: "1.5rem",
     lineHeight: 1.3,
-    letterSpacing: '-0.01em',
+    letterSpacing: "-0.01em",
   },
   h6: {
     fontFamily: '"Outfit", sans-serif',
     fontWeight: 700,
-    fontSize: '1.25rem',
+    fontSize: "1.25rem",
     lineHeight: 1.35,
-    letterSpacing: '-0.01em',
+    letterSpacing: "-0.01em",
   },
 
   // BODY - Clean, readable
   body1: {
-    fontSize: '1rem',
+    fontSize: "1rem",
     lineHeight: 1.6,
     fontWeight: 500,
   },
   body2: {
-    fontSize: '0.875rem',
+    fontSize: "0.875rem",
     lineHeight: 1.5,
     fontWeight: 500,
   },
@@ -151,13 +151,13 @@ const typography = {
   // LABELS - Semi-bold for emphasis
   subtitle1: {
     fontFamily: '"Outfit", sans-serif',
-    fontSize: '1rem',
+    fontSize: "1rem",
     fontWeight: 600,
     lineHeight: 1.4,
   },
   subtitle2: {
     fontFamily: '"Outfit", sans-serif',
-    fontSize: '0.875rem',
+    fontSize: "0.875rem",
     fontWeight: 600,
     lineHeight: 1.4,
   },
@@ -166,41 +166,41 @@ const typography = {
   button: {
     fontFamily: '"Outfit", sans-serif',
     fontWeight: 700,
-    textTransform: 'none' as const,
-    fontSize: '1rem',
-    letterSpacing: '0.01em',
+    textTransform: "none" as const,
+    fontSize: "1rem",
+    letterSpacing: "0.01em",
   },
 
   caption: {
-    fontSize: '0.75rem',
+    fontSize: "0.75rem",
     fontWeight: 600,
     lineHeight: 1.4,
   },
 
   overline: {
-    fontSize: '0.75rem',
+    fontSize: "0.75rem",
     fontWeight: 700,
-    letterSpacing: '0.08em',
-    textTransform: 'uppercase' as const,
+    letterSpacing: "0.08em",
+    textTransform: "uppercase" as const,
   },
-}
+};
 
 // 3. SHAPE - M3 Expressive 10-step scale
 // Uses squircle-inspired super-ellipse corners
 const shape = {
   borderRadius: 20, // Base radius (medium)
-}
+};
 
 // 4. SHADOWS - Soft, diffuse for modern feel
 const shadows = [
-  'none',
-  '0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06)',
-  '0 4px 6px rgba(0,0,0,0.04), 0 2px 4px rgba(0,0,0,0.06)',
-  '0 10px 15px rgba(0,0,0,0.04), 0 4px 6px rgba(0,0,0,0.05)',
-  '0 20px 25px rgba(0,0,0,0.05), 0 8px 10px rgba(0,0,0,0.04)',
-  '0 25px 50px rgba(0,0,0,0.08)',
-  ...Array(19).fill('0 25px 50px rgba(0,0,0,0.08)'),
-] as const
+  "none",
+  "0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06)",
+  "0 4px 6px rgba(0,0,0,0.04), 0 2px 4px rgba(0,0,0,0.06)",
+  "0 10px 15px rgba(0,0,0,0.04), 0 4px 6px rgba(0,0,0,0.05)",
+  "0 20px 25px rgba(0,0,0,0.05), 0 8px 10px rgba(0,0,0,0.04)",
+  "0 25px 50px rgba(0,0,0,0.08)",
+  ...Array(19).fill("0 25px 50px rgba(0,0,0,0.08)"),
+] as const;
 
 // 5. TRANSITIONS - Physics-based spring motion
 const transitions = {
@@ -215,15 +215,15 @@ const transitions = {
   },
   easing: {
     // M3 Expressive spring-like curves
-    easeInOut: 'cubic-bezier(0.4, 0, 0.2, 1)',
-    easeOut: 'cubic-bezier(0, 0, 0.2, 1)',
-    easeIn: 'cubic-bezier(0.4, 0, 1, 1)',
-    sharp: 'cubic-bezier(0.4, 0, 0.6, 1)',
+    easeInOut: "cubic-bezier(0.4, 0, 0.2, 1)",
+    easeOut: "cubic-bezier(0, 0, 0.2, 1)",
+    easeIn: "cubic-bezier(0.4, 0, 1, 1)",
+    sharp: "cubic-bezier(0.4, 0, 0.6, 1)",
     // Custom expressive curves
-    spring: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
-    bounce: 'cubic-bezier(0.68, -0.6, 0.32, 1.6)',
+    spring: "cubic-bezier(0.34, 1.56, 0.64, 1)",
+    bounce: "cubic-bezier(0.68, -0.6, 0.32, 1.6)",
   },
-}
+};
 
 export const theme = createTheme({
   palette,
@@ -244,48 +244,49 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 100,
-          padding: '12px 24px',
+          padding: "12px 24px",
           fontWeight: 700,
-          fontSize: '1rem',
+          fontSize: "1rem",
           minHeight: 44,
-          transition: 'transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease',
-          '@media (hover: hover)': {
-            '&:hover': {
-              transform: 'translateY(-2px)',
+          transition:
+            "transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease",
+          "@media (hover: hover)": {
+            "&:hover": {
+              transform: "translateY(-2px)",
             },
           },
-          '&:active': {
-            transform: 'translateY(0)',
+          "&:active": {
+            transform: "translateY(0)",
           },
         },
         containedPrimary: {
           background: palette.primary.main,
-          border: '2px solid #1A1C00',
-          boxShadow: '3px 3px 0 #1A1C00',
-          '&:hover': {
+          border: "2px solid #1A1C00",
+          boxShadow: "3px 3px 0 #1A1C00",
+          "&:hover": {
             background: palette.primary.light,
-            boxShadow: '4px 4px 0 #1A1C00',
+            boxShadow: "4px 4px 0 #1A1C00",
           },
-          '&:active': {
-            boxShadow: '1px 1px 0 #1A1C00',
+          "&:active": {
+            boxShadow: "1px 1px 0 #1A1C00",
           },
         },
         containedSecondary: {
           background: palette.secondary.main,
-          border: '2px solid #1A1C00',
-          boxShadow: '3px 3px 0 #1A1C00',
-          '&:hover': {
+          border: "2px solid #1A1C00",
+          boxShadow: "3px 3px 0 #1A1C00",
+          "&:hover": {
             background: palette.secondary.light,
-            boxShadow: '4px 4px 0 #1A1C00',
+            boxShadow: "4px 4px 0 #1A1C00",
           },
         },
         outlined: {
-          borderWidth: '2px',
+          borderWidth: "2px",
           borderColor: palette.secondary.main,
           color: palette.secondary.main,
-          backgroundColor: '#FFFFFF',
-          '&:hover': {
-            borderWidth: '2px',
+          backgroundColor: "#FFFFFF",
+          "&:hover": {
+            borderWidth: "2px",
             backgroundColor: alpha(palette.secondary.main, 0.08),
             borderColor: palette.secondary.dark,
           },
@@ -293,19 +294,19 @@ export const theme = createTheme({
         text: {
           color: palette.secondary.main,
           fontWeight: 700,
-          '&:hover': {
+          "&:hover": {
             backgroundColor: alpha(palette.secondary.main, 0.08),
           },
         },
         sizeLarge: {
           minHeight: 52,
-          padding: '14px 32px',
-          fontSize: '1.125rem',
+          padding: "14px 32px",
+          fontSize: "1.125rem",
         },
         sizeSmall: {
           minHeight: 36,
-          padding: '8px 16px',
-          fontSize: '0.875rem',
+          padding: "8px 16px",
+          fontSize: "0.875rem",
         },
       },
     },
@@ -318,16 +319,16 @@ export const theme = createTheme({
         root: {
           fontWeight: 700,
           fontFamily: '"Outfit", sans-serif',
-          transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-          border: '2px solid #1A1C00',
-          boxShadow: '3px 3px 0 #1A1C00',
-          '&:hover': {
-            transform: 'translateY(-2px)',
-            boxShadow: '4px 4px 0 #1A1C00',
+          transition: "transform 0.2s ease, box-shadow 0.2s ease",
+          border: "2px solid #1A1C00",
+          boxShadow: "3px 3px 0 #1A1C00",
+          "&:hover": {
+            transform: "translateY(-2px)",
+            boxShadow: "4px 4px 0 #1A1C00",
           },
-          '&:active': {
-            transform: 'translateY(0)',
-            boxShadow: '2px 2px 0 #1A1C00',
+          "&:active": {
+            transform: "translateY(0)",
+            boxShadow: "2px 2px 0 #1A1C00",
           },
         },
         primary: {
@@ -336,14 +337,14 @@ export const theme = createTheme({
         },
         secondary: {
           background: `linear-gradient(135deg, ${palette.secondary.main} 0%, ${palette.secondary.dark} 100%)`,
-          color: '#FFFFFF',
+          color: "#FFFFFF",
         },
         extended: {
           height: 48,
-          padding: '0 20px',
+          padding: "0 20px",
           borderRadius: 24,
           gap: 8,
-          '& .MuiSvgIcon-root': {
+          "& .MuiSvgIcon-root": {
             fontSize: 20,
           },
         },
@@ -361,9 +362,9 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 20,
-          border: '1px solid #E4E4E7',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
-          overflow: 'hidden',
+          border: "1px solid #E4E4E7",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
+          overflow: "hidden",
         },
       },
     },
@@ -371,7 +372,7 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           padding: 24,
-          '&:last-child': {
+          "&:last-child": {
             paddingBottom: 24,
           },
         },
@@ -388,13 +389,13 @@ export const theme = createTheme({
         },
         outlined: {
           borderRadius: 20,
-          border: '2px solid #E4E4E7',
+          border: "2px solid #E4E4E7",
         },
         elevation1: {
-          boxShadow: '0 4px 20px rgba(0,0,0,0.04)',
+          boxShadow: "0 4px 20px rgba(0,0,0,0.04)",
         },
         elevation2: {
-          boxShadow: '0 8px 30px rgba(0,0,0,0.06)',
+          boxShadow: "0 8px 30px rgba(0,0,0,0.06)",
         },
       },
     },
@@ -405,39 +406,39 @@ export const theme = createTheme({
     MuiTextField: {
       styleOverrides: {
         root: {
-          '& .MuiInputLabel-root': {
+          "& .MuiInputLabel-root": {
             color: palette.text.secondary,
             fontWeight: 600,
-            fontSize: '0.875rem',
-            '&.Mui-focused': {
+            fontSize: "0.875rem",
+            "&.Mui-focused": {
               color: palette.secondary.main,
             },
           },
-          '& .MuiOutlinedInput-root': {
+          "& .MuiOutlinedInput-root": {
             borderRadius: 12,
-            backgroundColor: '#F4F4F5',
-            transition: 'background-color 0.2s ease, border-color 0.2s ease',
-            '& fieldset': {
-              borderColor: 'transparent',
+            backgroundColor: "#F4F4F5",
+            transition: "background-color 0.2s ease, border-color 0.2s ease",
+            "& fieldset": {
+              borderColor: "transparent",
               borderWidth: 2,
             },
-            '&:hover': {
-              backgroundColor: '#EBEBED',
-              '& fieldset': {
-                borderColor: '#D4D4D8',
+            "&:hover": {
+              backgroundColor: "#EBEBED",
+              "& fieldset": {
+                borderColor: "#D4D4D8",
               },
             },
-            '&.Mui-focused': {
-              backgroundColor: '#FFFFFF',
-              '& fieldset': {
+            "&.Mui-focused": {
+              backgroundColor: "#FFFFFF",
+              "& fieldset": {
                 borderColor: palette.secondary.main,
                 borderWidth: 2,
               },
             },
           },
-          '& .MuiOutlinedInput-input': {
+          "& .MuiOutlinedInput-input": {
             fontWeight: 600,
-            fontSize: '1rem',
+            fontSize: "1rem",
           },
         },
       },
@@ -447,7 +448,7 @@ export const theme = createTheme({
         root: {
           color: palette.text.secondary,
           fontWeight: 600,
-          '&.Mui-focused': {
+          "&.Mui-focused": {
             color: palette.secondary.main,
           },
         },
@@ -457,15 +458,15 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 12,
-          backgroundColor: '#F4F4F5',
-          '& fieldset': {
-            borderColor: 'transparent',
+          backgroundColor: "#F4F4F5",
+          "& fieldset": {
+            borderColor: "transparent",
             borderWidth: 2,
           },
-          '&:hover fieldset': {
-            borderColor: '#D4D4D8',
+          "&:hover fieldset": {
+            borderColor: "#D4D4D8",
           },
-          '&.Mui-focused fieldset': {
+          "&.Mui-focused fieldset": {
             borderColor: palette.secondary.main,
           },
         },
@@ -484,32 +485,32 @@ export const theme = createTheme({
           borderRadius: 10,
           fontWeight: 600,
           fontFamily: '"Outfit", sans-serif',
-          fontSize: '0.8125rem',
+          fontSize: "0.8125rem",
           height: 32,
         },
         filled: {
           backgroundColor: palette.secondary.main,
-          color: '#FFFFFF',
-          '&:hover': {
+          color: "#FFFFFF",
+          "&:hover": {
             backgroundColor: palette.secondary.dark,
           },
         },
         outlined: {
-          borderWidth: '2px',
+          borderWidth: "2px",
           borderColor: palette.secondary.main,
           color: palette.secondary.main,
           fontWeight: 600,
-          '&:hover': {
+          "&:hover": {
             backgroundColor: alpha(palette.secondary.main, 0.08),
           },
         },
         colorPrimary: {
           backgroundColor: palette.secondary.main,
-          color: '#FFFFFF',
+          color: "#FFFFFF",
         },
         colorSecondary: {
           backgroundColor: palette.tertiary.main,
-          color: '#FFFFFF',
+          color: "#FFFFFF",
         },
       },
     },
@@ -520,11 +521,11 @@ export const theme = createTheme({
     MuiAppBar: {
       styleOverrides: {
         root: {
-          backgroundColor: 'rgba(255,255,255,0.95)',
-          backdropFilter: 'blur(12px)',
+          backgroundColor: "rgba(255,255,255,0.95)",
+          backdropFilter: "blur(12px)",
           color: palette.text.primary,
-          boxShadow: 'none',
-          borderBottom: '2px solid #E4E4E7',
+          boxShadow: "none",
+          borderBottom: "2px solid #E4E4E7",
         },
       },
     },
@@ -534,7 +535,7 @@ export const theme = createTheme({
           minHeight: 64,
           paddingLeft: 16,
           paddingRight: 16,
-          '@media (min-width: 600px)': {
+          "@media (min-width: 600px)": {
             paddingLeft: 24,
             paddingRight: 24,
           },
@@ -548,27 +549,27 @@ export const theme = createTheme({
     MuiBottomNavigation: {
       styleOverrides: {
         root: {
-          backgroundColor: '#FFFFFF',
           height: 72,
-          borderTop: '1px solid #E4E4E7',
+          borderTop: "1px solid #E4E4E7",
+          background: "none",
         },
       },
     },
     MuiBottomNavigationAction: {
       styleOverrides: {
         root: {
-          transition: 'color 0.15s ease',
+          transition: "color 0.15s ease",
           minWidth: 64,
-          '&.Mui-selected': {
+          "&.Mui-selected": {
             color: palette.secondary.main,
           },
         },
         label: {
           fontFamily: '"Outfit", sans-serif',
           fontWeight: 600,
-          fontSize: '0.75rem',
-          '&.Mui-selected': {
-            fontSize: '0.75rem',
+          fontSize: "0.75rem",
+          "&.Mui-selected": {
+            fontSize: "0.75rem",
             fontWeight: 700,
           },
         },
@@ -581,19 +582,19 @@ export const theme = createTheme({
     MuiIconButton: {
       styleOverrides: {
         root: {
-          transition: 'background-color 0.15s ease',
-          '&:hover': {
+          transition: "background-color 0.15s ease",
+          "&:hover": {
             backgroundColor: alpha(palette.secondary.main, 0.1),
           },
-          '&:active': {
+          "&:active": {
             backgroundColor: alpha(palette.secondary.main, 0.2),
           },
         },
         colorError: {
-          '&:hover': {
+          "&:hover": {
             backgroundColor: alpha(palette.error.main, 0.1),
           },
-          '&:active': {
+          "&:active": {
             backgroundColor: alpha(palette.error.main, 0.2),
           },
         },
@@ -607,7 +608,7 @@ export const theme = createTheme({
       styleOverrides: {
         paper: {
           borderRadius: 28, // M3 dialog radius
-          border: '2px solid #E4E4E7',
+          border: "2px solid #E4E4E7",
         },
       },
     },
@@ -616,23 +617,44 @@ export const theme = createTheme({
         root: {
           fontFamily: '"Outfit", sans-serif',
           fontWeight: 700,
-          fontSize: '1.5rem',
-          padding: '24px 24px 16px',
+          fontSize: "1.5rem",
+          padding: "24px 24px 16px",
         },
       },
     },
     MuiDialogContent: {
       styleOverrides: {
         root: {
-          padding: '16px 24px',
+          padding: "16px 24px",
         },
       },
     },
     MuiDialogActions: {
       styleOverrides: {
         root: {
-          padding: '16px 24px 24px',
+          padding: "16px 24px 24px",
           gap: 12,
+        },
+      },
+    },
+
+    // =========================================================================
+    // LIST - Flex column layout with spacing
+    // =========================================================================
+    MuiList: {
+      styleOverrides: {
+        root: {
+          display: "flex",
+          flexDirection: "column",
+          gap: 16,
+        },
+      },
+    },
+
+    MuiListItem: {
+      styleOverrides: {
+        root: {
+          backgroundColor: palette.background.paper,
         },
       },
     },
@@ -644,16 +666,17 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 12,
-          margin: '2px 8px',
-          '&:hover': {
+          margin: "2px 8px",
+          backgroundColor: palette.background.paper,
+          "&:hover": {
             backgroundColor: alpha(palette.secondary.main, 0.06),
           },
-          '&:active': {
+          "&:active": {
             backgroundColor: alpha(palette.secondary.main, 0.12),
           },
-          '&.Mui-selected': {
+          "&.Mui-selected": {
             backgroundColor: alpha(palette.secondary.main, 0.1),
-            '&:hover': {
+            "&:hover": {
               backgroundColor: alpha(palette.secondary.main, 0.14),
             },
           },
@@ -685,7 +708,7 @@ export const theme = createTheme({
       },
     },
   },
-})
+});
 
 // Export tertiary palette for use in components
-export { palette }
+export { palette };
