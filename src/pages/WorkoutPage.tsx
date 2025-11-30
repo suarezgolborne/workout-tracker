@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -33,6 +33,12 @@ import { useExercises } from "../hooks/useExercises";
 import { usePersonalRecords } from "../hooks/usePersonalRecords";
 import { useWorkoutTemplates } from "../hooks/useWorkoutTemplates";
 import { ExerciseLog, Exercise, Workout, WorkoutTemplate } from "../types";
+
+interface BeforeInstallPromptEvent extends Event {
+  readonly platforms?: string[];
+  prompt: () => Promise<void>;
+  userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
+}
 
 const getDefaultTimes = () => {
   const now = new Date();
@@ -69,6 +75,9 @@ export function WorkoutPage() {
   const [workoutDate, setWorkoutDate] = useState(() => getDefaultTimes().date);
   const [startTime, setStartTime] = useState(() => getDefaultTimes().start);
   const [endTime, setEndTime] = useState(() => getDefaultTimes().end);
+  const [deferredPrompt, setDeferredPrompt] =
+    useState<BeforeInstallPromptEvent | null>(null);
+  const [installHintOpen, setInstallHintOpen] = useState(false);
 
   const { addWorkout } = useWorkouts();
   const { getExercise } = useExercises();
@@ -179,7 +188,41 @@ export function WorkoutPage() {
     setEditTemplateDialogOpen(false);
   };
 
+  useEffect(() => {
+    const listener = (event: Event) => {
+      event.preventDefault();
+      setDeferredPrompt(event as BeforeInstallPromptEvent);
+    };
+
+    window.addEventListener("beforeinstallprompt", listener);
+
+    return () => {
+      window.removeEventListener("beforeinstallprompt", listener);
+    };
+  }, []);
+
   const handleAddToHomeScreen = async () => {
+    const isIos = /iphone|ipad|ipod/i.test(window.navigator.userAgent);
+    const isStandalone =
+      window.matchMedia("(display-mode: standalone)").matches ||
+      (window.navigator as unknown as { standalone?: boolean }).standalone ===
+        true;
+
+    if (deferredPrompt) {
+      await deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome !== "accepted") {
+        setInstallHintOpen(true);
+      }
+      setDeferredPrompt(null);
+      return;
+    }
+
+    if (isIos && !isStandalone) {
+      setInstallHintOpen(true);
+      return;
+    }
+
     const shareData = {
       title: "Workout Tracker",
       text: "Add Workout Tracker to your home screen for fast logging.",
@@ -226,6 +269,10 @@ export function WorkoutPage() {
             size="large"
             onClick={() => handleStartWorkout()}
             startIcon={<PlayArrow />}
+            sx={{
+              width: "100%",
+              maxWidth: 360,
+            }}
           >
             Start new workout
           </Button>
@@ -235,6 +282,16 @@ export function WorkoutPage() {
               size="large"
               onClick={() => setTemplateDialogOpen(true)}
               startIcon={<Add />}
+              sx={{
+                width: "100%",
+                maxWidth: 360,
+                borderColor: (theme) => theme.palette.text.primary,
+                boxShadow: "3px 3px 0 #1A1C00",
+                "&:hover": {
+                  borderColor: (theme) => theme.palette.text.primary,
+                  boxShadow: "4px 4px 0 #1A1C00",
+                },
+              }}
             >
               Use workout template
             </Button>
@@ -248,21 +305,19 @@ export function WorkoutPage() {
             sx={{
               width: "100%",
               maxWidth: 360,
-              border: (theme) => `3px solid ${theme.palette.text.primary}`,
+              border: (theme) => `2px solid ${theme.palette.text.primary}`,
               borderRadius: 3,
               fontWeight: 900,
               letterSpacing: 1,
               textTransform: "uppercase",
-              boxShadow: (theme) =>
-                `6px 6px 0 ${theme.palette.background.paper}, 10px 10px 0 ${theme.palette.text.primary}`,
+              boxShadow: "3px 3px 0 #1A1C00",
               transform: "skew(-2deg)",
               transition: "all 120ms ease",
               bgcolor: (theme) => theme.palette.secondary.main,
               color: (theme) => theme.palette.secondary.contrastText,
               "&:hover": {
                 bgcolor: (theme) => theme.palette.secondary.dark,
-                boxShadow: (theme) =>
-                  `4px 4px 0 ${theme.palette.background.paper}, 8px 8px 0 ${theme.palette.text.primary}`,
+                boxShadow: "4px 4px 0 #1A1C00",
                 transform: "skew(0deg) scale(0.99)",
               },
             }}
@@ -356,6 +411,31 @@ export function WorkoutPage() {
             >
               Save
             </Button>
+          </DialogActions>
+        </Dialog>
+
+        <Dialog
+          open={installHintOpen}
+          onClose={() => setInstallHintOpen(false)}
+          fullWidth
+          maxWidth="xs"
+        >
+          <DialogTitle>Install on your home screen</DialogTitle>
+          <DialogContent>
+            <Typography sx={{ mb: 1 }}>
+              Save Workout Tracker for quick access:
+            </Typography>
+            <List sx={{ pl: 2 }}>
+              <ListItemText primary="1. Tap the share icon in Safari" />
+              <ListItemText primary='2. Choose "Add to Home Screen"' />
+              <ListItemText primary="3. Confirm to install" />
+            </List>
+            <Typography variant="body2" color="text.secondary">
+              Tip: On Android, look for the install banner or browser menu option.
+            </Typography>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setInstallHintOpen(false)}>Got it</Button>
           </DialogActions>
         </Dialog>
       </Box>
