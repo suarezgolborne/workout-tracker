@@ -30,7 +30,6 @@ export function BottomNav() {
         left: 0,
         right: 0,
         zIndex: 1000,
-        pb: "max(env(safe-area-inset-bottom), 6px)",
         background: "background.paper",
         mx: "auto",
         width: "calc(100% - 32px)",
