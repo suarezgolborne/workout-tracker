@@ -28,7 +28,7 @@ export function BottomNav() {
         left: 0,
         right: 0,
         zIndex: 1000,
-        pb: 'env(safe-area-inset-bottom)',
+        pb: 'max(env(safe-area-inset-bottom), 6px)',
       }}
       elevation={3}
     >
@@ -36,6 +36,13 @@ export function BottomNav() {
         value={currentValue >= 0 ? currentValue : 0}
         onChange={handleNavChange}
         showLabels
+        sx={{
+          '& .MuiBottomNavigationAction-root': {
+            minWidth: 0,
+            paddingTop: 6,
+            paddingBottom: 6,
+          },
+        }}
       >
         {navItems.map(item => (
           <BottomNavigationAction key={item.path} label={item.label} icon={item.icon} />
