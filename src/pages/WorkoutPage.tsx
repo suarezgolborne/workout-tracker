@@ -78,6 +78,7 @@ export function WorkoutPage() {
   const [deferredPrompt, setDeferredPrompt] =
     useState<BeforeInstallPromptEvent | null>(null);
   const [installHintOpen, setInstallHintOpen] = useState(false);
+  const [showInstallButton, setShowInstallButton] = useState(true);
 
   const { addWorkout } = useWorkouts();
   const { getExercise } = useExercises();
@@ -201,6 +202,33 @@ export function WorkoutPage() {
     };
   }, []);
 
+  useEffect(() => {
+    const isIosDevice = () => {
+      const userAgent = window.navigator.userAgent.toLowerCase();
+      const isAppleTouchDevice =
+        /iphone|ipad|ipod/.test(userAgent) ||
+        (userAgent.includes("mac") && "ontouchend" in document);
+
+      return isAppleTouchDevice;
+    };
+
+    const isStandalone = () => {
+      const isDisplayModeStandalone = window.matchMedia(
+        "(display-mode: standalone)"
+      ).matches;
+      const isNavigatorStandalone =
+        typeof (window.navigator as { standalone?: boolean }).standalone ===
+          "boolean" &&
+        Boolean((window.navigator as { standalone?: boolean }).standalone);
+
+      return isDisplayModeStandalone || isNavigatorStandalone;
+    };
+
+    if (isIosDevice() && isStandalone()) {
+      setShowInstallButton(false);
+    }
+  }, []);
+
   const handleAddToHomeScreen = async () => {
     // Try native install prompt first (Android/desktop Chrome)
     if (deferredPrompt) {
@@ -262,34 +290,36 @@ export function WorkoutPage() {
               Use workout template
             </Button>
           )}
-          <Button
-            variant="contained"
-            color="secondary"
-            size="large"
-            onClick={() => void handleAddToHomeScreen()}
-            startIcon={<IosShare />}
-            sx={{
-              width: "100%",
-              maxWidth: 360,
-              border: (theme) => `2px solid ${theme.palette.text.primary}`,
-              borderRadius: 3,
-              fontWeight: 900,
-              letterSpacing: 1,
-              textTransform: "uppercase",
-              boxShadow: "3px 3px 0 #1A1C00",
-              transform: "skew(-2deg)",
-              transition: "all 120ms ease",
-              bgcolor: (theme) => theme.palette.secondary.main,
-              color: (theme) => theme.palette.secondary.contrastText,
-              "&:hover": {
-                bgcolor: (theme) => theme.palette.secondary.dark,
-                boxShadow: "4px 4px 0 #1A1C00",
-                transform: "skew(0deg) scale(0.99)",
-              },
-            }}
-          >
-            Add to Home Screen
-          </Button>
+          {showInstallButton && (
+            <Button
+              variant="contained"
+              color="secondary"
+              size="large"
+              onClick={() => void handleAddToHomeScreen()}
+              startIcon={<IosShare />}
+              sx={{
+                width: "100%",
+                maxWidth: 360,
+                border: (theme) => `2px solid ${theme.palette.text.primary}`,
+                borderRadius: 3,
+                fontWeight: 900,
+                letterSpacing: 1,
+                textTransform: "uppercase",
+                boxShadow: "3px 3px 0 #1A1C00",
+                transform: "skew(-2deg)",
+                transition: "all 120ms ease",
+                bgcolor: (theme) => theme.palette.secondary.main,
+                color: (theme) => theme.palette.secondary.contrastText,
+                "&:hover": {
+                  bgcolor: (theme) => theme.palette.secondary.dark,
+                  boxShadow: "4px 4px 0 #1A1C00",
+                  transform: "skew(0deg) scale(0.99)",
+                },
+              }}
+            >
+              Add to Home Screen
+            </Button>
+          )}
         </Box>
 
         <Dialog
