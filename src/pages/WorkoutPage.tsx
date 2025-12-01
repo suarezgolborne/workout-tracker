@@ -537,11 +537,6 @@ export function WorkoutPage() {
     <Box sx={{ pb: 10 }}>
       <PageAppBar
         title="Current Workout"
-        actions={
-          <IconButton onClick={handleCancelWorkout} color="error">
-            <Close />
-          </IconButton>
-        }
       />
       <Box sx={{ p: 2 }}>
         {activeWorkout.length === 0 ? (
