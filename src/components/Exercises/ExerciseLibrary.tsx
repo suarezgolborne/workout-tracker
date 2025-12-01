@@ -77,6 +77,23 @@ export function ExerciseLibrary({
     return `PR: ${weight}kg x ${reps}`;
   };
 
+  const baseChipStyles = {
+    "& .MuiChip-label": {
+      fontWeight: 600,
+    },
+  } as const;
+
+  const neutralChipStyles = {
+    bgcolor: "#1f2937",
+    color: "#e5e7eb",
+    borderColor: "#1f2937",
+    "&:hover": {
+      bgcolor: "#111827",
+      borderColor: "#111827",
+      color: "#f4f4f5",
+    },
+  } as const;
+
   return (
     <Box sx={{ pb: 2 }}>
       <TextField
@@ -132,7 +149,11 @@ export function ExerciseLibrary({
               onClick={() => toggleCategory(cat)}
               color={selectedCategories.includes(cat) ? "primary" : "default"}
               size="small"
-              variant={selectedCategories.includes(cat) ? "filled" : "outlined"}
+              variant="filled"
+              sx={{
+                ...baseChipStyles,
+                ...(selectedCategories.includes(cat) ? {} : neutralChipStyles),
+              }}
             />
           ))}
         </Box>
@@ -175,7 +196,11 @@ export function ExerciseLibrary({
               onClick={() => toggleMuscle(muscle)}
               color={selectedMuscles.includes(muscle) ? "secondary" : "default"}
               size="small"
-              variant={selectedMuscles.includes(muscle) ? "filled" : "outlined"}
+              variant="filled"
+              sx={{
+                ...baseChipStyles,
+                ...(selectedMuscles.includes(muscle) ? {} : neutralChipStyles),
+              }}
             />
           ))}
         </Box>

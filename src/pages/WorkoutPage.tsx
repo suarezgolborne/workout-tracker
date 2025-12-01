@@ -658,7 +658,6 @@ export function WorkoutPage() {
         PaperProps={{
           sx: (theme) => ({
             width: "calc(100% - 32px)",
-            maxWidth: 900,
             mt: `max(${theme.spacing(2)}, env(safe-area-inset-top))`,
             mb: theme.spacing(2),
             maxHeight: "calc(100% - 64px)",
