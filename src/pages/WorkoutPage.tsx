@@ -28,6 +28,7 @@ import {
   Edit,
   IosShare,
 } from "@mui/icons-material";
+import { BottomNav } from "../components/Layout/BottomNav";
 import { PageAppBar } from "../components/Layout/PageAppBar";
 import { ExerciseLibrary } from "../components/Exercises/ExerciseLibrary";
 import { ExerciseEntry } from "../components/Workout/ExerciseEntry";
@@ -333,199 +334,202 @@ export function WorkoutPage() {
 
   if (!workoutStarted) {
     return (
-      <Box sx={{ textAlign: "center", pt: 8 }}>
-        <Typography variant="h5" gutterBottom>
-          Ready to jack your body?
-        </Typography>
-        <Typography color="text.secondary" sx={{ mb: 4 }}>
-          Start a new session to log your exercises
-        </Typography>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 2,
-            alignItems: "center",
-          }}
-        >
-          <Button
-            variant="contained"
-            size="large"
-            onClick={() => handleStartWorkout()}
-            startIcon={<PlayArrow />}
+      <>
+        <Box sx={{ textAlign: "center", pt: 8 }}>
+          <Typography variant="h5" gutterBottom>
+            Ready to jack your body?
+          </Typography>
+          <Typography color="text.secondary" sx={{ mb: 4 }}>
+            Start a new session to log your exercises
+          </Typography>
+          <Box
             sx={{
-              width: "100%",
-              maxWidth: 360,
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
+              alignItems: "center",
             }}
           >
-            Start new workout
-          </Button>
-          {templates.length > 0 && (
             <Button
-              variant="outlined"
+              variant="contained"
               size="large"
-              onClick={() => setTemplateDialogOpen(true)}
-              startIcon={<Add />}
+              onClick={() => handleStartWorkout()}
+              startIcon={<PlayArrow />}
               sx={{
                 width: "100%",
                 maxWidth: 360,
-                borderColor: (theme) => theme.palette.text.primary,
-                boxShadow: "3px 3px 0 #1A1C00",
-                "&:hover": {
+              }}
+            >
+              Start new workout
+            </Button>
+            {templates.length > 0 && (
+              <Button
+                variant="outlined"
+                size="large"
+                onClick={() => setTemplateDialogOpen(true)}
+                startIcon={<Add />}
+                sx={{
+                  width: "100%",
+                  maxWidth: 360,
                   borderColor: (theme) => theme.palette.text.primary,
-                  boxShadow: "4px 4px 0 #1A1C00",
-                },
-              }}
-            >
-              Use workout template
-            </Button>
-          )}
-          {showInstallButton && (
-            <Button
-              variant="contained"
-              color="secondary"
-              size="large"
-              onClick={() => void handleAddToHomeScreen()}
-              startIcon={<IosShare />}
-              sx={{
-                width: "100%",
-                maxWidth: 360,
-                border: (theme) => `2px solid ${theme.palette.text.primary}`,
-                borderRadius: 3,
-                fontWeight: 900,
-                letterSpacing: 1,
-                textTransform: "uppercase",
-                boxShadow: "3px 3px 0 #1A1C00",
-                transform: "skew(-2deg)",
-                transition: "all 120ms ease",
-                bgcolor: (theme) => theme.palette.secondary.main,
-                color: (theme) => theme.palette.secondary.contrastText,
-                "&:hover": {
-                  bgcolor: (theme) => theme.palette.secondary.dark,
-                  boxShadow: "4px 4px 0 #1A1C00",
-                  transform: "skew(0deg) scale(0.99)",
-                },
-              }}
-            >
-              Add to Home Screen
-            </Button>
-          )}
-        </Box>
-
-        <Dialog
-          open={templateDialogOpen}
-          onClose={() => setTemplateDialogOpen(false)}
-          fullWidth
-          maxWidth="sm"
-        >
-          <DialogTitle>Select Template</DialogTitle>
-          <DialogContent>
-            <List>
-              {templates.map((template) => (
-                <ListItemButton
-                  key={template.id}
-                  onClick={() => handleStartWorkout(template)}
-                >
-                  <ListItemText
-                    primary={template.name}
-                    secondary={
-                      template.description ||
-                      `${template.exercises.length} exercises`
-                    }
-                  />
-                  <ListItemSecondaryAction>
-                    <Stack direction="row" spacing={0.5}>
-                      <IconButton
-                        edge="end"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleEditTemplate(template);
-                        }}
-                      >
-                        <Edit />
-                      </IconButton>
-                      <IconButton
-                        edge="end"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          deleteTemplate(template.id);
-                        }}
-                      >
-                        <Delete />
-                      </IconButton>
-                    </Stack>
-                  </ListItemSecondaryAction>
-                </ListItemButton>
-              ))}
-            </List>
-          </DialogContent>
-        </Dialog>
-
-        <Dialog
-          open={editTemplateDialogOpen}
-          onClose={() => setEditTemplateDialogOpen(false)}
-          fullWidth
-          maxWidth="sm"
-        >
-          <DialogTitle>Edit Template</DialogTitle>
-          <DialogContent>
-            <TextField
-              autoFocus
-              fullWidth
-              label="Template Name"
-              value={templateName}
-              onChange={(e) => setTemplateName(e.target.value)}
-              sx={{ mt: 1 }}
-            />
-            {editingTemplate && (
-              <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
-                Exercises:{" "}
-                {editingTemplate.exercises
-                  .map((te) => getExercise(te.exerciseId)?.name || "Unknown")
-                  .join(", ")}
-              </Typography>
+                  boxShadow: "3px 3px 0 #1A1C00",
+                  "&:hover": {
+                    borderColor: (theme) => theme.palette.text.primary,
+                    boxShadow: "4px 4px 0 #1A1C00",
+                  },
+                }}
+              >
+                Use workout template
+              </Button>
             )}
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setEditTemplateDialogOpen(false)}>
-              Cancel
-            </Button>
-            <Button
-              onClick={handleSaveEditedTemplate}
-              variant="contained"
-              disabled={!templateName.trim()}
-            >
-              Save
-            </Button>
-          </DialogActions>
-        </Dialog>
+            {showInstallButton && (
+              <Button
+                variant="contained"
+                color="secondary"
+                size="large"
+                onClick={() => void handleAddToHomeScreen()}
+                startIcon={<IosShare />}
+                sx={{
+                  width: "100%",
+                  maxWidth: 360,
+                  border: (theme) => `2px solid ${theme.palette.text.primary}`,
+                  borderRadius: 3,
+                  fontWeight: 900,
+                  letterSpacing: 1,
+                  textTransform: "uppercase",
+                  boxShadow: "3px 3px 0 #1A1C00",
+                  transform: "skew(-2deg)",
+                  transition: "all 120ms ease",
+                  bgcolor: (theme) => theme.palette.secondary.main,
+                  color: (theme) => theme.palette.secondary.contrastText,
+                  "&:hover": {
+                    bgcolor: (theme) => theme.palette.secondary.dark,
+                    boxShadow: "4px 4px 0 #1A1C00",
+                    transform: "skew(0deg) scale(0.99)",
+                  },
+                }}
+              >
+                Add to Home Screen
+              </Button>
+            )}
+          </Box>
 
-        <Dialog
-          open={installHintOpen}
-          onClose={() => setInstallHintOpen(false)}
-          fullWidth
-          maxWidth="xs"
-        >
-          <DialogTitle>Install on your home screen</DialogTitle>
-          <DialogContent>
-            <Typography sx={{ mb: 1 }}>
-              Save Workout Tracker for quick access:
-            </Typography>
-            <List sx={{ pl: 2 }}>
-              <ListItemText primary="1. Tap the share icon in Safari" />
-              <ListItemText primary='2. Choose "Add to Home Screen"' />
-              <ListItemText primary="3. Confirm to install" />
-            </List>
-            <Typography variant="body2" color="text.secondary">
-              Tip: On Android, look for the install banner or browser menu
-              option.
-            </Typography>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setInstallHintOpen(false)}>Got it</Button>
-          </DialogActions>
-        </Dialog>
-      </Box>
+          <Dialog
+            open={templateDialogOpen}
+            onClose={() => setTemplateDialogOpen(false)}
+            fullWidth
+            maxWidth="sm"
+          >
+            <DialogTitle>Select Template</DialogTitle>
+            <DialogContent>
+              <List>
+                {templates.map((template) => (
+                  <ListItemButton
+                    key={template.id}
+                    onClick={() => handleStartWorkout(template)}
+                  >
+                    <ListItemText
+                      primary={template.name}
+                      secondary={
+                        template.description ||
+                        `${template.exercises.length} exercises`
+                      }
+                    />
+                    <ListItemSecondaryAction>
+                      <Stack direction="row" spacing={0.5}>
+                        <IconButton
+                          edge="end"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleEditTemplate(template);
+                          }}
+                        >
+                          <Edit />
+                        </IconButton>
+                        <IconButton
+                          edge="end"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            deleteTemplate(template.id);
+                          }}
+                        >
+                          <Delete />
+                        </IconButton>
+                      </Stack>
+                    </ListItemSecondaryAction>
+                  </ListItemButton>
+                ))}
+              </List>
+            </DialogContent>
+          </Dialog>
+
+          <Dialog
+            open={editTemplateDialogOpen}
+            onClose={() => setEditTemplateDialogOpen(false)}
+            fullWidth
+            maxWidth="sm"
+          >
+            <DialogTitle>Edit Template</DialogTitle>
+            <DialogContent>
+              <TextField
+                autoFocus
+                fullWidth
+                label="Template Name"
+                value={templateName}
+                onChange={(e) => setTemplateName(e.target.value)}
+                sx={{ mt: 1 }}
+              />
+              {editingTemplate && (
+                <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
+                  Exercises:{" "}
+                  {editingTemplate.exercises
+                    .map((te) => getExercise(te.exerciseId)?.name || "Unknown")
+                    .join(", ")}
+                </Typography>
+              )}
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => setEditTemplateDialogOpen(false)}>
+                Cancel
+              </Button>
+              <Button
+                onClick={handleSaveEditedTemplate}
+                variant="contained"
+                disabled={!templateName.trim()}
+              >
+                Save
+              </Button>
+            </DialogActions>
+          </Dialog>
+
+          <Dialog
+            open={installHintOpen}
+            onClose={() => setInstallHintOpen(false)}
+            fullWidth
+            maxWidth="xs"
+          >
+            <DialogTitle>Install on your home screen</DialogTitle>
+            <DialogContent>
+              <Typography sx={{ mb: 1 }}>
+                Save Workout Tracker for quick access:
+              </Typography>
+              <List sx={{ pl: 2 }}>
+                <ListItemText primary="1. Tap the share icon in Safari" />
+                <ListItemText primary='2. Choose "Add to Home Screen"' />
+                <ListItemText primary="3. Confirm to install" />
+              </List>
+              <Typography variant="body2" color="text.secondary">
+                Tip: On Android, look for the install banner or browser menu
+                option.
+              </Typography>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => setInstallHintOpen(false)}>Got it</Button>
+            </DialogActions>
+          </Dialog>
+        </Box>
+        <BottomNav />
+      </>
     );
   }
 
