@@ -40,6 +40,17 @@ interface BeforeInstallPromptEvent extends Event {
   userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
 }
 
+const ACTIVE_WORKOUT_STORAGE_KEY = "activeWorkoutSession";
+
+type WorkoutSessionState = {
+  activeWorkout: ExerciseLog[];
+  notes: string;
+  workoutStarted: boolean;
+  workoutDate: string;
+  startTime: string;
+  endTime: string;
+};
+
 const getDefaultTimes = () => {
   const now = new Date();
   // Convert to CET (Europe/Stockholm)
@@ -226,6 +237,42 @@ export function WorkoutPage() {
     setTemplateName("");
     setEditTemplateDialogOpen(false);
   };
+
+  useEffect(() => {
+    const storedSession = localStorage.getItem(ACTIVE_WORKOUT_STORAGE_KEY);
+    if (storedSession) {
+      try {
+        const parsedSession = JSON.parse(storedSession) as Partial<WorkoutSessionState>;
+        setActiveWorkout(parsedSession.activeWorkout ?? []);
+        setNotes(parsedSession.notes ?? "");
+        setWorkoutStarted(parsedSession.workoutStarted ?? false);
+        const defaults = getDefaultTimes();
+        setWorkoutDate(parsedSession.workoutDate ?? defaults.date);
+        setStartTime(parsedSession.startTime ?? defaults.start);
+        setEndTime(parsedSession.endTime ?? defaults.end);
+      } catch {
+        localStorage.removeItem(ACTIVE_WORKOUT_STORAGE_KEY);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!workoutStarted) {
+      localStorage.removeItem(ACTIVE_WORKOUT_STORAGE_KEY);
+      return;
+    }
+
+    const sessionState: WorkoutSessionState = {
+      activeWorkout,
+      notes,
+      workoutStarted,
+      workoutDate,
+      startTime,
+      endTime,
+    };
+
+    localStorage.setItem(ACTIVE_WORKOUT_STORAGE_KEY, JSON.stringify(sessionState));
+  }, [activeWorkout, notes, workoutStarted, workoutDate, startTime, endTime]);
 
   useEffect(() => {
     const listener = (event: Event) => {
