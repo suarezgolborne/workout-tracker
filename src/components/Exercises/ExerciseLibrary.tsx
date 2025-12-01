@@ -6,8 +6,6 @@ import {
   Chip,
   List,
   ListItem,
-  ListItemIcon,
-  Checkbox,
   ListItemText,
   Typography,
   Stack,
@@ -210,22 +208,19 @@ export function ExerciseLibrary({
               sx={{
                 cursor: selectionMode ? "pointer" : "default",
                 "&:hover": selectionMode ? { bgcolor: "action.hover" } : {},
-                bgcolor: isSelected ? "action.selected" : undefined,
-                borderRadius: 1,
+                border: (theme) =>
+                  `3px solid ${
+                    isSelected
+                      ? theme.palette.secondary.main
+                      : theme.palette.divider
+                  }`,
+                borderRadius: 2,
                 py: 1.5,
+                mb: 1,
+                boxShadow: isSelected ? 4 : 0,
+                transition: "border-color 0.2s, box-shadow 0.2s",
               }}
-              divider
             >
-              {selectionMode && (
-                <ListItemIcon sx={{ minWidth: 40 }}>
-                  <Checkbox
-                    edge="start"
-                    tabIndex={-1}
-                    disableRipple
-                    checked={isSelected}
-                  />
-                </ListItemIcon>
-              )}
               {/* Pictogram on the left */}
               {exercise.pictogram && (
                 <Box
@@ -256,7 +251,11 @@ export function ExerciseLibrary({
               )}
               <ListItemText
                 primary={
-                  <Typography variant="body1" fontWeight={600}>
+                  <Typography
+                    variant="body1"
+                    fontWeight={600}
+                    color={isSelected ? "secondary.main" : undefined}
+                  >
                     {exercise.name}
                   </Typography>
                 }
@@ -267,7 +266,10 @@ export function ExerciseLibrary({
                     alignItems="center"
                     sx={{ mt: 0.5 }}
                   >
-                    <Typography variant="caption" color="text.secondary">
+                    <Typography
+                      variant="caption"
+                      color={isSelected ? "secondary.main" : "text.secondary"}
+                    >
                       {exercise.muscleGroup}
                     </Typography>
                     {pr && (
