@@ -144,7 +144,6 @@ export function WorkoutPage() {
       return [...prev, ...newLogs];
     });
 
-    setSelectedExerciseIds([]);
     setExerciseDialogOpen(false);
   };
 
@@ -267,12 +266,6 @@ export function WorkoutPage() {
       setShowInstallButton(false);
     }
   }, []);
-
-  useEffect(() => {
-    if (!exerciseDialogOpen) {
-      setSelectedExerciseIds([]);
-    }
-  }, [exerciseDialogOpen]);
 
   const handleAddToHomeScreen = async () => {
     // Try native install prompt first (Android/desktop Chrome)
@@ -621,7 +614,7 @@ export function WorkoutPage() {
             maxWidth: 900,
             mt: `max(${theme.spacing(2)}, env(safe-area-inset-top))`,
             mb: theme.spacing(2),
-            maxHeight: "calc(100% - 128px)",
+            maxHeight: "calc(100% - 64px)",
           }),
         }}
         sx={{
@@ -634,18 +627,11 @@ export function WorkoutPage() {
           sx={{
             display: "flex",
             alignItems: "center",
-            justifyContent: "space-between",
+            justifyContent: "flex-start",
             pr: 1,
           }}
         >
           Add Exercise
-          <IconButton
-            aria-label="Close"
-            onClick={() => setExerciseDialogOpen(false)}
-            edge="end"
-          >
-            <Close />
-          </IconButton>
         </DialogTitle>
         <DialogContent>
           <ExerciseLibrary
