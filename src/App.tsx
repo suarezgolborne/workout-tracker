@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { Box } from "@mui/material";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { BottomNav } from "./components/Layout/BottomNav";
 import { SplashScreen } from "./components/Layout/SplashScreen";
 import { WorkoutPage } from "./pages/WorkoutPage";
@@ -14,6 +14,9 @@ function App() {
     const hasShown = sessionStorage.getItem("splashShown");
     return !hasShown;
   });
+
+  const location = useLocation();
+  const isWorkoutPage = location.pathname === "/";
 
   const handleSplashComplete = useCallback(() => {
     // sessionStorage.setItem("splashShown", "true");
@@ -37,7 +40,7 @@ function App() {
           <Route path="/exercises" element={<ExercisesPage />} />
           <Route path="/progress" element={<ProgressPage />} />
         </Routes>
-        <BottomNav />
+        {!isWorkoutPage && <BottomNav />}
       </Box>
     </>
   );

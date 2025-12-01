@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import {
+  BottomNavigation,
+  BottomNavigationAction,
   Box,
   Button,
   Dialog,
@@ -13,6 +15,7 @@ import {
   ListItemButton,
   ListItemText,
   ListItemSecondaryAction,
+  Paper,
   Stack,
 } from "@mui/material";
 import {
@@ -78,6 +81,7 @@ export function WorkoutPage() {
   const [templateDialogOpen, setTemplateDialogOpen] = useState(false);
   const [saveTemplateDialogOpen, setSaveTemplateDialogOpen] = useState(false);
   const [editTemplateDialogOpen, setEditTemplateDialogOpen] = useState(false);
+  const [saveWorkoutDialogOpen, setSaveWorkoutDialogOpen] = useState(false);
   const [editingTemplate, setEditingTemplate] =
     useState<WorkoutTemplate | null>(null);
   const [templateName, setTemplateName] = useState("");
@@ -190,6 +194,7 @@ export function WorkoutPage() {
     setWorkoutDate(defaults.date);
     setStartTime(defaults.start);
     setEndTime(defaults.end);
+    setSaveWorkoutDialogOpen(false);
   };
 
   const handleStartWorkout = (template?: WorkoutTemplate) => {
@@ -534,37 +539,6 @@ export function WorkoutPage() {
           </IconButton>
         }
       />
-
-      <Box sx={{ p: 2, display: "flex", gap: 2, flexWrap: "wrap" }}>
-        <TextField
-          type="date"
-          label="Date"
-          value={workoutDate}
-          onChange={(e) => setWorkoutDate(e.target.value)}
-          size="small"
-          InputLabelProps={{ shrink: true }}
-          sx={{ flex: 1, minWidth: 140 }}
-        />
-        <TextField
-          type="time"
-          label="Start Time"
-          value={startTime}
-          onChange={(e) => setStartTime(e.target.value)}
-          size="small"
-          InputLabelProps={{ shrink: true }}
-          sx={{ flex: 1, minWidth: 110 }}
-        />
-        <TextField
-          type="time"
-          label="End Time"
-          value={endTime}
-          onChange={(e) => setEndTime(e.target.value)}
-          size="small"
-          InputLabelProps={{ shrink: true }}
-          sx={{ flex: 1, minWidth: 110 }}
-        />
-      </Box>
-
       <Box sx={{ p: 2 }}>
         {activeWorkout.length === 0 ? (
           <Box sx={{ textAlign: "center", py: 4 }}>
@@ -615,40 +589,103 @@ export function WorkoutPage() {
               onChange={(e) => setNotes(e.target.value)}
               sx={{ mb: 2 }}
             />
-
-            <Button
-              variant="text"
-              fullWidth
-              startIcon={<BookmarkAdd />}
-              onClick={() => setSaveTemplateDialogOpen(true)}
-              sx={{ mb: 2 }}
-            >
-              Save as Template
-            </Button>
           </>
         )}
       </Box>
 
-      {activeWorkout.length > 0 && (
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={handleSaveWorkout}
-          startIcon={<Save />}
+      <Paper
+        sx={{
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          zIndex: 1000,
+          background: "background.paper",
+          mx: "auto",
+          width: "calc(100% - 32px)",
+          mb: 2,
+        }}
+        elevation={3}
+      >
+        <BottomNavigation
+          value={-1}
+          showLabels
           sx={{
-            position: "fixed",
-            bottom: (theme) =>
-              `calc(${theme.spacing(12)} + env(safe-area-inset-bottom))`,
-            right: 16,
-            borderRadius: 100,
-            px: 3,
-            py: 1.5,
-            boxShadow: 3,
+            "& .MuiBottomNavigationAction-root": {
+              minWidth: 0,
+              paddingTop: 3,
+              paddingBottom: 2,
+              background: "none",
+            },
           }}
         >
-          Save Workout
-        </Button>
-      )}
+          <BottomNavigationAction
+            label="Cancel"
+            icon={<Close />}
+            onClick={handleCancelWorkout}
+          />
+          <BottomNavigationAction
+            label="Save as template"
+            icon={<BookmarkAdd />}
+            onClick={() => setSaveTemplateDialogOpen(true)}
+            disabled={activeWorkout.length === 0}
+          />
+          <BottomNavigationAction
+            label="Save workout"
+            icon={<Save />}
+            onClick={() => setSaveWorkoutDialogOpen(true)}
+            disabled={activeWorkout.length === 0}
+          />
+        </BottomNavigation>
+      </Paper>
+
+      <Dialog
+        open={saveWorkoutDialogOpen}
+        onClose={() => setSaveWorkoutDialogOpen(false)}
+        fullWidth
+        maxWidth="sm"
+      >
+        <DialogTitle>Save Workout</DialogTitle>
+        <DialogContent sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
+          <TextField
+            type="date"
+            label="Date"
+            value={workoutDate}
+            onChange={(e) => setWorkoutDate(e.target.value)}
+            size="small"
+            InputLabelProps={{ shrink: true }}
+            sx={{ flex: 1, minWidth: 140 }}
+          />
+          <TextField
+            type="time"
+            label="Start Time"
+            value={startTime}
+            onChange={(e) => setStartTime(e.target.value)}
+            size="small"
+            InputLabelProps={{ shrink: true }}
+            sx={{ flex: 1, minWidth: 110 }}
+          />
+          <TextField
+            type="time"
+            label="End Time"
+            value={endTime}
+            onChange={(e) => setEndTime(e.target.value)}
+            size="small"
+            InputLabelProps={{ shrink: true }}
+            sx={{ flex: 1, minWidth: 110 }}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setSaveWorkoutDialogOpen(false)}>Cancel</Button>
+          <Button
+            onClick={handleSaveWorkout}
+            variant="contained"
+            disabled={activeWorkout.length === 0}
+          >
+            Save Workout
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       <Dialog
         open={exerciseDialogOpen}
