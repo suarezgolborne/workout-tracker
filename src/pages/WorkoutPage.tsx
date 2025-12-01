@@ -14,7 +14,6 @@ import {
   List,
   ListItemButton,
   ListItemText,
-  ListItemSecondaryAction,
   Paper,
   Stack,
 } from "@mui/material";
@@ -418,45 +417,57 @@ export function WorkoutPage() {
             open={templateDialogOpen}
             onClose={() => setTemplateDialogOpen(false)}
             fullWidth
-            maxWidth="sm"
+            maxWidth="md"
+            PaperProps={{
+              sx: {
+                maxWidth: 640,
+              },
+            }}
           >
-            <DialogTitle>Select Template</DialogTitle>
-            <DialogContent>
-              <List>
+            <DialogTitle sx={{ px: 2.5, pt: 2, pb: 1.5 }}>Select Template</DialogTitle>
+            <DialogContent sx={{ px: 2.5, pb: 2.5, pt: 0 }}>
+              <List disablePadding>
                 {templates.map((template) => (
                   <ListItemButton
                     key={template.id}
                     onClick={() => handleStartWorkout(template)}
+                    sx={{
+                      gap: 1.5,
+                      py: 1,
+                      px: 1.5,
+                      alignItems: "flex-start",
+                    }}
                   >
-                    <ListItemText
-                      primary={template.name}
-                      secondary={
-                        template.description ||
-                        `${template.exercises.length} exercises`
-                      }
-                    />
-                    <ListItemSecondaryAction>
-                      <Stack direction="row" spacing={0.5}>
-                        <IconButton
-                          edge="end"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleEditTemplate(template);
-                          }}
-                        >
-                          <Edit />
-                        </IconButton>
-                        <IconButton
-                          edge="end"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            deleteTemplate(template.id);
-                          }}
-                        >
-                          <Delete />
-                        </IconButton>
-                      </Stack>
-                    </ListItemSecondaryAction>
+                    <Box flex={1} minWidth={0}>
+                      <ListItemText
+                        primary={template.name}
+                        secondary={
+                          template.description ||
+                          `${template.exercises.length} exercises`
+                        }
+                        primaryTypographyProps={{ fontWeight: 600 }}
+                      />
+                    </Box>
+                    <Stack direction="row" spacing={0.5} sx={{ pt: 0.5 }}>
+                      <IconButton
+                        edge="end"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleEditTemplate(template);
+                        }}
+                      >
+                        <Edit />
+                      </IconButton>
+                      <IconButton
+                        edge="end"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          deleteTemplate(template.id);
+                        }}
+                      >
+                        <Delete />
+                      </IconButton>
+                    </Stack>
                   </ListItemButton>
                 ))}
               </List>
