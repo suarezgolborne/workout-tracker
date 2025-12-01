@@ -6,6 +6,8 @@ import {
   Chip,
   List,
   ListItem,
+  ListItemIcon,
+  Checkbox,
   ListItemText,
   Typography,
   Stack,
@@ -18,6 +20,8 @@ import { Exercise } from "../../types";
 interface Props {
   onSelect?: (exercise: Exercise) => void;
   selectionMode?: boolean;
+  selectedExerciseIds?: string[];
+  onToggleSelect?: (exerciseId: string) => void;
 }
 
 const categoryLabels: Record<string, string> = {
@@ -26,7 +30,12 @@ const categoryLabels: Record<string, string> = {
   bodyweight: "Bodyweight",
 };
 
-export function ExerciseLibrary({ onSelect, selectionMode = false }: Props) {
+export function ExerciseLibrary({
+  onSelect,
+  selectionMode = false,
+  selectedExerciseIds = [],
+  onToggleSelect,
+}: Props) {
   const [search, setSearch] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedMuscles, setSelectedMuscles] = useState<string[]>([]);
@@ -186,18 +195,37 @@ export function ExerciseLibrary({ onSelect, selectionMode = false }: Props) {
       <List disablePadding>
         {filtered.map((exercise) => {
           const pr = formatPR(exercise.id);
+          const isSelected =
+            selectionMode && selectedExerciseIds?.includes(exercise.id);
           return (
             <ListItem
               key={exercise.id}
-              onClick={() => onSelect?.(exercise)}
+              onClick={() => {
+                if (selectionMode && onToggleSelect) {
+                  onToggleSelect(exercise.id);
+                } else {
+                  onSelect?.(exercise);
+                }
+              }}
               sx={{
                 cursor: selectionMode ? "pointer" : "default",
                 "&:hover": selectionMode ? { bgcolor: "action.hover" } : {},
+                bgcolor: isSelected ? "action.selected" : undefined,
                 borderRadius: 1,
                 py: 1.5,
               }}
               divider
             >
+              {selectionMode && (
+                <ListItemIcon sx={{ minWidth: 40 }}>
+                  <Checkbox
+                    edge="start"
+                    tabIndex={-1}
+                    disableRipple
+                    checked={isSelected}
+                  />
+                </ListItemIcon>
+              )}
               {/* Pictogram on the left */}
               {exercise.pictogram && (
                 <Box
