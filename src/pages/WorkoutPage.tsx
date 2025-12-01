@@ -79,10 +79,11 @@ export function WorkoutPage() {
     useState<BeforeInstallPromptEvent | null>(null);
   const [installHintOpen, setInstallHintOpen] = useState(false);
   const [showInstallButton, setShowInstallButton] = useState(true);
+  const [selectedExerciseIds, setSelectedExerciseIds] = useState<string[]>([]);
 
   const { addWorkout } = useWorkouts();
   const { getExercise } = useExercises();
-  const { updateRecordsFromWorkout } = usePersonalRecords();
+  const { updateRecordsFromWorkout, getRecord } = usePersonalRecords();
   const {
     templates,
     createTemplateFromWorkout,
@@ -97,6 +98,21 @@ export function WorkoutPage() {
       .join(", ");
   };
 
+  const getDefaultWeight = (exerciseId: string): number => {
+    const record = getRecord(exerciseId);
+    if (!record) return 0;
+
+    const weights = Object.values(record.records);
+    if (weights.length === 0) return 0;
+
+    return weights.reduce((max, current) => Math.max(max, current), 0);
+  };
+
+  const createExerciseLog = (exerciseId: string): ExerciseLog => ({
+    exerciseId,
+    sets: [{ reps: 10, weight: getDefaultWeight(exerciseId) }],
+  });
+
   const handleAddExercise = (exercise: Exercise) => {
     if (activeWorkout.some((e) => e.exerciseId === exercise.id)) {
       setExerciseDialogOpen(false);
@@ -104,8 +120,31 @@ export function WorkoutPage() {
     }
     setActiveWorkout((prev) => [
       ...prev,
-      { exerciseId: exercise.id, sets: [{ reps: 10, weight: 0 }] },
+      createExerciseLog(exercise.id),
     ]);
+    setExerciseDialogOpen(false);
+  };
+
+  const handleToggleExerciseSelection = (exerciseId: string) => {
+    setSelectedExerciseIds((prev) =>
+      prev.includes(exerciseId)
+        ? prev.filter((id) => id !== exerciseId)
+        : [...prev, exerciseId]
+    );
+  };
+
+  const handleAddSelectedExercises = () => {
+    if (selectedExerciseIds.length === 0) return;
+
+    setActiveWorkout((prev) => {
+      const newLogs = selectedExerciseIds
+        .filter((id) => !prev.some((e) => e.exerciseId === id))
+        .map((id) => createExerciseLog(id));
+
+      return [...prev, ...newLogs];
+    });
+
+    setSelectedExerciseIds([]);
     setExerciseDialogOpen(false);
   };
 
@@ -228,6 +267,12 @@ export function WorkoutPage() {
       setShowInstallButton(false);
     }
   }, []);
+
+  useEffect(() => {
+    if (!exerciseDialogOpen) {
+      setSelectedExerciseIds([]);
+    }
+  }, [exerciseDialogOpen]);
 
   const handleAddToHomeScreen = async () => {
     // Try native install prompt first (Android/desktop Chrome)
@@ -603,8 +648,23 @@ export function WorkoutPage() {
           </IconButton>
         </DialogTitle>
         <DialogContent>
-          <ExerciseLibrary onSelect={handleAddExercise} selectionMode />
+          <ExerciseLibrary
+            onSelect={handleAddExercise}
+            selectionMode
+            selectedExerciseIds={selectedExerciseIds}
+            onToggleSelect={handleToggleExerciseSelection}
+          />
         </DialogContent>
+        <DialogActions sx={{ px: 3, pb: 2 }}>
+          <Button onClick={() => setExerciseDialogOpen(false)}>Cancel</Button>
+          <Button
+            variant="contained"
+            onClick={handleAddSelectedExercises}
+            disabled={selectedExerciseIds.length === 0}
+          >
+            Add Selected
+          </Button>
+        </DialogActions>
       </Dialog>
 
       <Dialog
