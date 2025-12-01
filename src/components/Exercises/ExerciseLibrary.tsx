@@ -207,7 +207,7 @@ export function ExerciseLibrary({
               }}
               sx={{
                 cursor: selectionMode ? "pointer" : "default",
-                "&:hover": selectionMode ? { bgcolor: "action.hover" } : {},
+
                 border: (theme) =>
                   `3px solid ${
                     isSelected

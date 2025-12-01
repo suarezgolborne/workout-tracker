@@ -26,7 +26,7 @@ function App() {
       <Box
         sx={(theme) => ({
           minHeight: "100vh",
-          bgcolor: "background.default",
+
           pb: `calc(${theme.spacing(8)} + env(safe-area-inset-bottom))`,
           pt: "env(safe-area-inset-top)",
         })}

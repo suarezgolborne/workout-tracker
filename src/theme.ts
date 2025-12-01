@@ -39,7 +39,7 @@ const palette = {
 
   // SURFACE COLORS - Subtle tints for depth
   background: {
-    default: "#efeeee", // Warm off-white
+    default: "#dedfd9", // Warm off-white
     paper: "#FFFFFF",
   },
 
@@ -653,6 +653,10 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           backgroundColor: palette.background.paper,
+          "&:hover": {
+            outlineOffset: "-10px",
+            outline: `8px solid ${alpha(palette.secondary.main, 0.2)}`,
+          },
         },
       },
     },
